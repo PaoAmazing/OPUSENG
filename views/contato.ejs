@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="contact-page">
+    <section class="contact-hero">
+      <div class="container">
+        <h1>Entre em Contato</h1>
+        <p>Tem alguma dúvida ou precisa de um orçamento? Nossa equipe está pronta para ajudar.</p>
+      </div>
+    </section>
+
+    <section class="contact-content">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-form">
+            <% if (success) { %>
+              <div class="alert alert-success">
+                <span class="material-icons">check_circle</span>
+                <%= success %>
+              </div>
+            <% } %>
+            <% if (error) { %>
+              <div class="alert alert-error">
+                <span class="material-icons">error</span>
+                <%= error %>
+              </div>
+            <% } %>
+
+            <form action="/contato" method="POST">
+              <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone">
+              </div>
+              <div class="form-group">
+                <label for="servico">Serviço de Interesse</label>
+                <select id="servico" name="servico">
+                  <option value="Laudo Técnico">Laudo Técnico</option>
+                  <option value="Projeto Mecânico">Projeto Mecânico</option>
+                  <option value="NR12 com ART">NR12 com ART</option>
+                  <option value="Consultoria">Consultoria</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="cta-button">Enviar Mensagem</button>
+            </form>
+          </div>
+          <div class="contact-info">
+            <h2>Informações de Contato</h2>
+            <div class="info-item">
+              <span class="material-icons">location_on</span>
+              <p>Endereço: Av. Engenharia, 1234 - Sala 501<br>Belo Horizonte - MG</p>
+            </div>
+            <div class="info-item">
+              <span class="material-icons">phone</span>
+              <p>Telefone: (31) 1234-5678</p>
+            </div>
+            <div class="info-item">
+              <span class="material-icons">email</span>
+              <p>Email: contato@opusengenharia.com.br</p>
+            </div>
+            <div class="info-item">
+              <span class="material-icons">schedule</span>
+              <p>Horário de Atendimento:<br>Segunda a Sexta: 8h às 18h</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

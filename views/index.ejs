@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Soluções em Engenharia com Excelência Técnica</h1>
+        <p>Laudos técnicos, projetos mecânicos, NR12 com ART e muito mais. Tudo com qualidade, seriedade e atenção às normas!</p>
+        <a href="/contato" class="cta-button">Solicite um Orçamento</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>Por que escolher a OPUS Engenharia?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="material-icons">verified</span>
+            <h3>Qualidade Garantida</h3>
+            <p>Todos nossos serviços são executados por profissionais qualificados e seguem rigorosos padrões de qualidade.</p>
+          </div>
+          <div class="feature-card">
+            <span class="material-icons">description</span>
+            <h3>Documentação Completa</h3>
+            <p>Entregamos toda a documentação técnica necessária para regularização e conformidade com as normas.</p>
+          </div>
+          <div class="feature-card">
+            <span class="material-icons">schedule</span>
+            <h3>Compromisso com Prazos</h3>
+            <p>Respeitamos os prazos acordados, garantindo a continuidade dos processos de nossos clientes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services-preview">
+      <div class="container">
+        <h2>Nossos Serviços</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="material-icons">engineering</span>
+            <h3>Projetos Mecânicos</h3>
+            <p>Desenvolvimento de projetos personalizados para suas necessidades específicas.</p>
+            <a href="/servicos" class="learn-more">Saiba mais →</a>
+          </div>
+          <div class="service-card">
+            <span class="material-icons">report</span>
+            <h3>Laudos Técnicos</h3>
+            <p>Elaboração de laudos completos para atender exigências técnicas e legais.</p>
+            <a href="/servicos" class="learn-more">Saiba mais →</a>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="/servicos" class="cta-button-secondary">Ver todos os serviços</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>
