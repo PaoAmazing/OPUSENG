@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/contato.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contato - OPUS Engenharia</title>
+  <link rel="stylesheet" href="/css/contato.css" />
+  <link rel="stylesheet" href="/css/header.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <%- include('partials/header') %>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">
+          <img src="/img/logo.png" alt="Logo OPUS" class="logo-img">
+          OPUS <span>Engenharia</span>
+        </a>
+        <nav>
+          <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/servicos">Serviços</a></li>
+            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="/contato" class="active">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-  <main class="contact-page">
-    <section class="contact-hero">
+  <main class="contact-page" style="margin-top: 6rem;">
+    <section class="page-header">
       <div class="container">
         <h1>Entre em Contato</h1>
         <p>Tem alguma dúvida ou precisa de um orçamento? Nossa equipe está pronta para ajudar.</p>
@@ -22,16 +43,17 @@
     <section class="contact-content">
       <div class="container">
         <div class="contact-grid">
+          <!-- Formulário -->
           <div class="contact-form">
-            <% if (success) { %>
+            <% if (locals.success) { %>
               <div class="alert alert-success">
-                <span class="material-icons">check_circle</span>
+                <i data-lucide="check-circle"></i>
                 <%= success %>
               </div>
             <% } %>
-            <% if (error) { %>
+            <% if (locals.error) { %>
               <div class="alert alert-error">
-                <span class="material-icons">error</span>
+                <i data-lucide="alert-circle"></i>
                 <%= error %>
               </div>
             <% } %>
@@ -39,15 +61,15 @@
             <form action="/contato" method="POST">
               <div class="form-group">
                 <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" required>
+                <input type="text" id="nome" name="nome" required />
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required />
               </div>
               <div class="form-group">
                 <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" name="telefone">
+                <input type="tel" id="telefone" name="telefone" />
               </div>
               <div class="form-group">
                 <label for="servico">Serviço de Interesse</label>
@@ -63,26 +85,44 @@
                 <label for="mensagem">Mensagem</label>
                 <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
               </div>
-              <button type="submit" class="cta-button">Enviar Mensagem</button>
+              <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
             </form>
           </div>
+
+          <!-- Informações de Contato -->
           <div class="contact-info">
             <h2>Informações de Contato</h2>
+
             <div class="info-item">
-              <span class="material-icons">location_on</span>
-              <p>Endereço: Samambaia Sul<br>Brasília - DF</p>
+              <i data-lucide="map-pin"></i>
+              <div>
+                <h3>Endereço</h3>
+                <p>Samambaia Sul<br/>Brasília - DF</p>
+              </div>
             </div>
+
             <div class="info-item">
-              <span class="material-icons">phone</span>
-              <p>Telefone: (61) 9553-3123</p>
+              <i data-lucide="phone"></i>
+              <div>
+                <h3>Telefone</h3>
+                <p>(61) 9553-3123</p>
+              </div>
             </div>
+
             <div class="info-item">
-              <span class="material-icons">email</span>
-              <p>Email: contato@opusengenharia.com.br</p>
+              <i data-lucide="mail"></i>
+              <div>
+                <h3>Email</h3>
+                <p>contato@opusengenharia.com.br</p>
+              </div>
             </div>
+
             <div class="info-item">
-              <span class="material-icons">schedule</span>
-              <p>Horário de Atendimento:<br>Segunda a Sexta: 8h às 20h</p>
+              <i data-lucide="clock"></i>
+              <div>
+                <h3>Horário de Atendimento</h3>
+                <p>Segunda a Sexta: 8h às 20h</p>
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +130,49 @@
     </section>
   </main>
 
-  <%- include('partials/footer') %>
-  <script src="/js/main.js"></script>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>OPUS Engenharia</h3>
+          <p>Soluções em engenharia com excelência técnica e compromisso com a qualidade.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul>
+            <li><a href="#">Projetos Mecânicos</a></li>
+            <li><a href="#">Laudos Técnicos</a></li>
+            <li><a href="#">NR12</a></li>
+            <li><a href="#">Consultoria</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Links Úteis</h4>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul class="contact-info">
+            <li>(61) 9553-3123</li>
+            <li>opusengmec@gmail.com</li>
+            <li>Brasília, DF</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

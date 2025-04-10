@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OPUS Engenharia</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -14,15 +17,15 @@
         <div class="container">
             <div class="header-content">
                 <a href="/" class="logo">
-                    <i data-lucide="hard-hat"></i>
+                    <img src="/img/logo.png" alt="Logo OPUS" class="logo-img">
                     OPUS <span>Engenharia</span>
                 </a>
                 <nav>
                     <ul>
-                        <li><a href="#" class="active">Início</a></li>
-                        <li><a href="#">Serviços</a></li>
-                        <li><a href="#">Sobre</a></li>
-                        <li><a href="#">Contato</a></li>
+                        <li><a href="/" class="active">Início</a></li>
+                        <li><a href="/servicos">Serviços</a></li>
+                        <li><a href="/sobre">Sobre</a></li>
+                        <li><a href="/contato">Contato</a></li>
                     </ul>
                 </nav>
             </div>
@@ -35,9 +38,9 @@
         <div class="container">
             <div class="hero-content">
                 <h1>Soluções em Engenharia com Excelência Técnica</h1>
-                <p>Laudos técnicos, projetos mecânicos, NR12 com ART e muito mais. 
+                <p>Laudos técnicos, projetos mecânicos, NR12 com ART e muito mais.
                    Tudo com qualidade, seriedade e atenção às normas!</p>
-                <a href="#" class="btn btn-primary">Solicite um Orçamento</a>
+                <a href="/contato" class="btn btn-primary">Solicite um Orçamento</a>
             </div>
         </div>
     </section>
@@ -50,23 +53,23 @@
                 <div class="feature-card">
                     <i data-lucide="clipboard-check"></i>
                     <h3>Qualidade Garantida</h3>
-                    <p>Todos nossos serviços são executados por profissionais qualificados e seguem rigorosos padrões de qualidade.</p>
+                    <p>Serviços executados por profissionais qualificados e com padrão elevado de excelência.</p>
                 </div>
                 <div class="feature-card">
                     <i data-lucide="file-check-2"></i>
                     <h3>Documentação Completa</h3>
-                    <p>Entregamos toda a documentação técnica necessária para regularização e conformidade com as normas.</p>
+                    <p>Entregamos todos os documentos técnicos necessários para garantir regularização e conformidade.</p>
                 </div>
                 <div class="feature-card">
                     <i data-lucide="clock"></i>
                     <h3>Compromisso com Prazos</h3>
-                    <p>Respeitamos os prazos acordados, garantindo a continuidade dos processos de nossos clientes.</p>
+                    <p>Garantimos entrega no prazo e continuidade dos seus processos.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
+    <!-- Services Preview -->
     <section class="services">
         <div class="container">
             <h2>Nossos Serviços</h2>
@@ -74,18 +77,18 @@
                 <div class="service-card">
                     <i data-lucide="ruler"></i>
                     <h3>Projetos Mecânicos</h3>
-                    <p>Desenvolvimento de projetos personalizados para suas necessidades específicas.</p>
-                    <a href="#" class="learn-more">Saiba mais <span>→</span></a>
+                    <p>Soluções sob medida com foco em segurança, funcionalidade e desempenho.</p>
+                    <a href="/servicos" class="learn-more">Saiba mais <span>→</span></a>
                 </div>
                 <div class="service-card">
                     <i data-lucide="building-2"></i>
                     <h3>Laudos Técnicos</h3>
-                    <p>Elaboração de laudos completos para atender exigências técnicas e legais.</p>
-                    <a href="#" class="learn-more">Saiba mais <span>→</span></a>
+                    <p>Laudos completos para fins legais, normativos e operacionais.</p>
+                    <a href="/servicos" class="learn-more">Saiba mais <span>→</span></a>
                 </div>
             </div>
             <div class="text-center">
-                <a href="servicos" class="btn btn-outline">Ver todos os serviços</a>
+                <a href="/servicos" class="btn btn-outline">Ver todos os serviços</a>
             </div>
         </div>
     </section>
@@ -110,8 +113,8 @@
                 <div class="footer-col">
                     <h4>Links Úteis</h4>
                     <ul>
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Contato</a></li>
+                        <li><a href="/sobre">Sobre Nós</a></li>
+                        <li><a href="/contato">Contato</a></li>
                         <li><a href="#">Blog</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
