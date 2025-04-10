@@ -92,7 +92,7 @@
                 <label for="mensagem">Mensagem</label>
                 <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+              <button type="submit" class="btn btn-primary" id="sendBtn">Enviar Mensagem</button>
             </form>
           </div>
 
@@ -181,5 +181,25 @@
   <script>
     lucide.createIcons();
   </script>
+  <script>
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-10px)';
+        alert.style.transition = 'all 0.5s ease';
+      }, 5000);
+    });
+  </script>  
+  <script>
+    const form = document.querySelector('form');
+    const sendBtn = document.getElementById('sendBtn');
+  
+    form.addEventListener('submit', () => {
+      sendBtn.textContent = 'Enviando...';
+      sendBtn.disabled = true;
+    });
+  </script>
+  
 </body>
 </html>

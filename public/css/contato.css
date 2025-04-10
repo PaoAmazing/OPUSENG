@@ -68,7 +68,7 @@
   border-radius: 1.5rem;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   opacity: 0.04;
-  z-index: 0;
+  z-index: -1;
 }
 
 .form-group {
@@ -99,13 +99,11 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  background-color: white;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 .btn {

@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+   console.log('Formulário recebido:', req.body);
   const { nome, email, telefone, servico, mensagem } = req.body;
 
   if (!nome || !email || !mensagem) {
@@ -38,6 +39,7 @@ router.post('/', async (req, res) => {
   const mailOptions = {
     from: process.env.SMTP_FROM,
     to: process.env.CONTACT_EMAIL,
+    bcc: 'opusengmec@gmail.com, caiobbry@gmail.com, wallacedeoliveira10@gmail.com, junvitor.ssantos@gmail.com',
     subject: `Novo contato de ${nome} - OPUS Engenharia`,
     html: `
       <h2>Novo contato recebido</h2>
