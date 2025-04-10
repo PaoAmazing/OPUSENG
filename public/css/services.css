@@ -200,3 +200,32 @@
     font-size: 2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .page-header p,
+  .cta-section p {
+    font-size: 1rem;
+  }
+
+  .service-card-full h3 {
+    font-size: 1.25rem;
+  }
+
+  .cta-section {
+    padding: 3rem 1.25rem;
+  }
+
+  .cta-section h2 {
+    font-size: 1.75rem;
+  }
+
+  .service-card-full {
+    border-radius: 1rem;
+  }
+
+  .service-card-full i {
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+  }
+}

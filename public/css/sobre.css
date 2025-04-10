@@ -93,3 +93,25 @@
   line-height: 1.8;
   color: var(--gray-700);
 }
+
+@media (max-width: 768px) {
+  /* Reduz um pouco os paddings no hero */
+  .hero-sobre {
+    padding: 4rem 1rem;
+  }
+
+  /* Ajusta fonte do título e parágrafo */
+  .hero-sobre h1 {
+    font-size: 2rem;
+  }
+  .hero-sobre p {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+
+  /* Garante que a grid de imagens/valores fique em 1 coluna */
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
