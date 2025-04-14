@@ -32,6 +32,11 @@ router.get('/servicos', (req, res) => {
         title: 'Consultoria em Engenharia',
         description: 'Soluções especializadas para otimização de processos industriais e melhoria contínua.',
         icon: 'consultancy'
+      },
+      {
+        title: 'PMOC - Plano de Manutenção de Ar Condicionado',
+        description: 'Elaboração e implementação do PMOC. Garante qualidade do ar, eficiência energética e conformidade legal.',
+        icon: 'thermometer-snowflake'
       }
     ]
   });
