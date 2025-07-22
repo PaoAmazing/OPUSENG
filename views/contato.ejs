@@ -6,24 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contato - OPUS Engenharia</title>
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4EW3SD16RP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-4EW3SD16RP');
-
-    // Event snippet for Visualização de pag conversion page
     gtag('event', 'conversion', {
       'send_to': 'AW-17012385238/2m-1CI_r6tYaENbLkbA_',
       'value': 1.0,
       'currency': 'BRL'
-  });
+    });
     gtag('event', 'conversion', {'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_'});
     gtag('config', 'AW-17012385238');
   </script>
- 
+
   <link rel="stylesheet" href="/css/contato.css" />
   <link rel="stylesheet" href="/css/header.css" />
   <link rel="stylesheet" href="/css/footer.css" />
@@ -33,7 +30,6 @@
 </head>
 
 <body>
-  <!-- Header -->
   <header>
     <div class="container">
       <div class="header-content">
@@ -53,7 +49,7 @@
     </div>
   </header>
 
-  <main class="contact-page" style="margin-top: 6rem;">
+  <main class="contact-page">
     <section class="page-header">
       <div class="container">
         <h1>Entre em Contato</h1>
@@ -95,11 +91,12 @@
               <div class="form-group">
                 <label for="servico">Serviço de Interesse</label>
                 <select id="servico" name="servico">
-                  <option value="Laudo Técnico">PMOC - Ar Condicionado</option>
+                  <option value="PMOC - Ar Condicionado">PMOC - Ar Condicionado</option>
                   <option value="Laudo Técnico">Laudo Técnico</option>
                   <option value="Projeto Mecânico">Projeto Mecânico</option>
                   <option value="NR12 com ART">NR12 com ART</option>
                   <option value="Consultoria">Consultoria</option>
+                  <option value="Reclassificação de Monta">Reclassificação de Monta</option>
                   <option value="Outro">Outro</option>
                 </select>
               </div>
@@ -107,7 +104,7 @@
                 <label for="mensagem">Mensagem</label>
                 <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
               </div>
-              <button type="submit" class="btn btn-primary" id="sendBtn">Enviar Mensagem</button>
+              <button type="submit" class="btn" id="sendBtn">Enviar Mensagem</button>
             </form>
           </div>
 
@@ -152,60 +149,55 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h3>OPUS Engenharia</h3>
-                <p>Soluções em engenharia com excelência técnica e compromisso com a qualidade.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Serviços</h4>
-                <ul>
-                  <li><a href="/contato">PMOC</a></li>
-                  <li><a href="/contato">Projetos Mecânicos</a></li>
-                  <li><a href="/contato">Laudos Técnicos</a></li>
-                  <li><a href="/contato">NR12</a></li>
-                  <li><a href="/contato">Consultoria</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Links Úteis</h4>
-                <ul>
-                    <li><a href="/sobre">Sobre Nós</a></li>
-                    <li><a href="/contato">Contato</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contato</h4>
-                <ul class="contact-info">
-                    <li>(61) 9553-3123</li>
-                    <li>opusengmec@gmail.com</li>
-                    <li>Brasília, DF</li>
-                </ul>
-            </div>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>OPUS Engenharia</h3>
+          <p>Soluções em engenharia com excelência técnica e compromisso com a qualidade.</p>
         </div>
-        <h4>Redes Sociais</h4>
-        <div class="social-buttons">
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul>
+            <li><a href="/contato">PMOC</a></li>
+            <li><a href="/contato">Projetos Mecânicos</a></li>
+            <li><a href="/contato">Laudos Técnicos</a></li>
+            <li><a href="/contato">NR12</a></li>
+            <li><a href="/contato">Consultoria</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Links Úteis</h4>
+          <ul>
+            <li><a href="/sobre">Sobre Nós</a></li>
+            <li><a href="/contato">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul class="footer-contact-info">
+            <li>(61) 9553-3123</li>
+            <li>opusengmec@gmail.com</li>
+            <li>Brasília, DF</li>
+          </ul>
+        </div>
+      </div>
+      <h4>Redes Sociais</h4>
+      <div class="social-buttons">
         <a href="https://wa.me/5561995533123?text=Olá%2C+gostaria+de+fazer+um+orçamento+com+a+OPUS+Engenharia"
-            target="_blank"
-            aria-label="WhatsApp"
-            class="social-icon whatsapp">
-            <i data-lucide="message-circle"></i>
+           target="_blank" aria-label="WhatsApp" class="social-icon whatsapp">
+          <i data-lucide="message-circle"></i>
         </a>
         <a href="https://www.instagram.com/opusengenharia61/"
-            target="_blank"
-            aria-label="Instagram"
-            class="social-icon instagram">
-            <i data-lucide="instagram"></i>
+           target="_blank" aria-label="Instagram" class="social-icon instagram">
+          <i data-lucide="instagram"></i>
         </a>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
-        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
+      </div>
     </div>
-</footer>
+  </footer>
 
   <script>
     lucide.createIcons();
@@ -219,16 +211,16 @@
         alert.style.transition = 'all 0.5s ease';
       }, 5000);
     });
-  </script>  
+  </script>
   <script>
     const form = document.querySelector('form');
     const sendBtn = document.getElementById('sendBtn');
-  
     form.addEventListener('submit', () => {
       sendBtn.textContent = 'Enviando...';
       sendBtn.disabled = true;
     });
   </script>
-  
+
 </body>
 </html>
+
