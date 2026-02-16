@@ -86,6 +86,19 @@ header {
   nav ul li a.active {
     color: var(--primary-color);
   }
+
+  nav ul li a.login-btn {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  nav ul li a.login-btn:hover {
+    color: #fff;
+    filter: brightness(0.95);
+  }
   
   nav ul li a:hover::after,
   nav ul li a.active::after {

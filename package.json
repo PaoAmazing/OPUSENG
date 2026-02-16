@@ -14,10 +14,14 @@
   "author": "OPUSENG",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-sqlite3": "^0.9.16",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
-    "nodemailer": "^6.9.1"
+    "express-session": "^1.19.0",
+    "nodemailer": "^6.9.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

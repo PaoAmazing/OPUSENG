@@ -62,20 +62,38 @@ router.get('/portfolio', (req, res) => {
       {
         name: 'Projeto Industrial Completo',
         client: 'Indústria Metalúrgica XYZ',
-        description: 'Desenvolvimento de projeto mecânico completo para linha de produção.',
+        description: 'Desenvolvimento de projeto mecânico completo para linha de produção com otimização de eficiência.',
         image: 'project1.jpg'
       },
       {
         name: 'Adequação NR12',
         client: 'Fábrica de Alimentos ABC',
-        description: 'Adequação de máquinas e equipamentos à Norma Regulamentadora 12.',
+        description: 'Adequação de máquinas e equipamentos à Norma Regulamentadora 12, garantindo segurança operacional.',
         image: 'project2.jpg'
       },
       {
         name: 'Laudo Técnico de Equipamentos',
         client: 'Empresa de Logística DEF',
-        description: 'Elaboração de laudo técnico para frota de equipamentos de movimentação.',
+        description: 'Elaboração de laudo técnico completo para frota de equipamentos de movimentação e armazenagem.',
         image: 'project3.jpg'
+      },
+      {
+        name: 'Sistema PMOC - Ar Condicionado',
+        client: 'Centro Administrativo GHI',
+        description: 'Implementação completa do Plano de Manutenção, Operação e Controle (PMOC) e monitoramento de qualidade do ar.',
+        image: 'project4.jpg'
+      },
+      {
+        name: 'Reclassificação de Monta',
+        client: 'Seguadora de Seguros JKL',
+        description: 'Análise estrutural e mecânica de veículo sinistrado com emissão de laudo técnico conforme regulamentação.',
+        image: 'project5.jpg'
+      },
+      {
+        name: 'Consultoria de Otimização',
+        client: 'Indústria de Manufatura MNO',
+        description: 'Consultoria especializada para otimização de processos industriais e redução de custos operacionais.',
+        image: 'project6.jpg'
       }
     ]
   });

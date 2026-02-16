@@ -1,0 +1,324 @@
+<%- include('../partials/header') %>
+
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/colaborador/dashboard" class="nav-link">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a href="/colaborador/clientes" class="nav-link active">
+        <span class="icon">👥</span> Clientes
+      </a>
+      <a href="/colaborador/admin" class="nav-link">
+        <span class="icon">⚙️</span> Administração
+      </a>
+      <a href="/colaborador/perfil" class="nav-link">
+        <span class="icon">👤</span> Meu Perfil
+      </a>
+      <a href="/logout" class="nav-link logout">
+        <span class="icon">🚪</span> Sair
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header-bar">
+      <h1>Gerenciar Clientes</h1>
+    </div>
+
+    <div class="content-area">
+      <% if (clientes.length === 0) { %>
+        <div class="empty-state">
+          <p>Nenhum cliente registrado ainda</p>
+        </div>
+      <% } else { %>
+        <div class="clientes-grid">
+          <% clientes.forEach(cliente => { %>
+            <div class="cliente-card">
+              <div class="cliente-header">
+                <div class="cliente-avatar">👤</div>
+                <div class="cliente-name-section">
+                  <h3><%= cliente.nome %></h3>
+                  <p class="cliente-company"><%= cliente.empresa || 'Sem empresa' %></p>
+                </div>
+              </div>
+
+              <div class="cliente-body">
+                <div class="info-item">
+                  <label>Email:</label>
+                  <p><a href="mailto:<%= cliente.email %>"><%= cliente.email %></a></p>
+                </div>
+                <div class="info-item">
+                  <label>Telefone:</label>
+                  <p><%= cliente.telefone || 'Não informado' %></p>
+                </div>
+                <div class="info-item">
+                  <label>Serviços:</label>
+                  <p><strong><%= cliente.total_servicos %></strong> serviço(s)</p>
+                </div>
+                <div class="info-item">
+                  <label>Membro desde:</label>
+                  <p><%= new Date(cliente.data_criacao).toLocaleDateString('pt-BR') %></p>
+                </div>
+              </div>
+
+              <div class="cliente-footer">
+                <button class="btn btn-primary btn-small btn-view-servicos" data-cliente-id="<%= cliente.id %>">
+                  Ver Serviços
+                </button>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-wrapper {
+    display: flex;
+    min-height: calc(100vh - 200px);
+  }
+
+  .sidebar {
+    width: 250px;
+    background: #1a252f;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border-left-color: #3498db;
+  }
+
+  .nav-link .icon {
+    margin-right: 12px;
+  }
+
+  .nav-link.logout {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e74c3c;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-bar {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ecf0f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-bar h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+  }
+
+  .content-area {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #95a5a6;
+  }
+
+  .clientes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .cliente-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cliente-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .cliente-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .cliente-avatar {
+    font-size: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .cliente-name-section {
+    flex: 1;
+  }
+
+  .cliente-name-section h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+  }
+
+  .cliente-company {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .cliente-body {
+    padding: 20px;
+    flex: 1;
+  }
+
+  .info-item {
+    margin-bottom: 15px;
+  }
+
+  .info-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-item label {
+    display: block;
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .info-item p {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 14px;
+  }
+
+  .info-item a {
+    color: #3498db;
+    text-decoration: none;
+  }
+
+  .info-item a:hover {
+    text-decoration: underline;
+  }
+
+  .cliente-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #ecf0f1;
+    background: #f8f9fa;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: #3498db;
+    color: white;
+    width: 100%;
+    text-align: center;
+  }
+
+  .btn-primary:hover {
+    background: #2980b9;
+  }
+
+  .btn-small {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+
+    .clientes-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  function verServicos(clienteId) {
+    alert('Funcionalidade de filtro por cliente será implementada');
+    // Implementar filtro na dashboard
+  }
+
+  document.querySelectorAll('.btn-view-servicos').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const clienteId = btn.dataset.clienteId;
+      verServicos(clienteId);
+    });
+  });
+</script>
+
+<%- include('../partials/footer') %>

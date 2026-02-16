@@ -1,0 +1,716 @@
+<%- include('../partials/header') %>
+
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/colaborador/dashboard" class="nav-link">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a href="/colaborador/clientes" class="nav-link">
+        <span class="icon">👥</span> Clientes
+      </a>
+      <a href="/colaborador/admin" class="nav-link">
+        <span class="icon">⚙️</span> Administração
+      </a>
+      <a href="/colaborador/perfil" class="nav-link">
+        <span class="icon">👤</span> Meu Perfil
+      </a>
+      <a href="/logout" class="nav-link logout">
+        <span class="icon">🚪</span> Sair
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <a href="/colaborador/dashboard" class="back-link">← Voltar</a>
+        <h1><%= servico.titulo %></h1>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="service-grid">
+        <!-- Informações do Cliente -->
+        <div class="info-card">
+          <div class="card-header">
+            <h2>Informações do Cliente</h2>
+          </div>
+          <div class="card-body">
+            <div class="info-group">
+              <label>Nome:</label>
+              <p><%= servico.cliente_nome %></p>
+            </div>
+            <div class="info-group">
+              <label>Email:</label>
+              <p><%= servico.cliente_email %></p>
+            </div>
+            <div class="info-group">
+              <label>Telefone:</label>
+              <p><%= servico.telefone || 'Não informado' %></p>
+            </div>
+            <div class="info-group">
+              <label>Empresa:</label>
+              <p><%= servico.empresa || 'Não informado' %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gerenciar Status -->
+        <div class="info-card">
+          <div class="card-header">
+            <h2>Gerenciar Status</h2>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="statusSelect">Status Atual:</label>
+              <select id="statusSelect" class="form-control">
+                <option value="pendente" <%= servico.status === 'pendente' ? 'selected' : '' %>>Pendente</option>
+                <option value="em_andamento" <%= servico.status === 'em_andamento' ? 'selected' : '' %>>Em Andamento</option>
+                <option value="concluido" <%= servico.status === 'concluido' ? 'selected' : '' %>>Concluído</option>
+                <option value="cancelado" <%= servico.status === 'cancelado' ? 'selected' : '' %>>Cancelado</option>
+              </select>
+            </div>
+            <p class="current-status">
+              Status atual: <span class="status-badge status-<%= servico.status %>">
+                <%= servico.status.replace(/_/g, ' ').toUpperCase() %>
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Detalhes do Serviço -->
+        <div class="info-card full-width">
+          <div class="card-header">
+            <h2>Detalhes do Serviço</h2>
+          </div>
+          <div class="card-body">
+            <div class="details-grid">
+              <div class="detail">
+                <label>Descrição:</label>
+                <p><%= servico.descricao || 'Sem descrição' %></p>
+              </div>
+              <div class="detail">
+                <label>Tipo:</label>
+                <p><%= servico.tipo %></p>
+              </div>
+              <div class="detail">
+                <label>Prioridade:</label>
+                <p><span class="priority priority-<%= servico.prioridade %>"><%= servico.prioridade.toUpperCase() %></span></p>
+              </div>
+              <div class="detail">
+                <label>Data de Criação:</label>
+                <p><%= new Date(servico.data_criacao).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %></p>
+              </div>
+              <% if (servico.data_conclusao) { %>
+                <div class="detail">
+                  <label>Data de Conclusão:</label>
+                  <p><%= new Date(servico.data_conclusao).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Atualizações -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2>Adicionar Atualização</h2>
+        </div>
+        <div class="card-body">
+          <form id="updateForm">
+            <div class="form-group">
+              <label for="mensagem">Mensagem de Atualização:</label>
+              <textarea 
+                id="mensagem" 
+                name="mensagem" 
+                class="form-control" 
+                rows="4" 
+                placeholder="Descreva o progresso do serviço..."
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Atualização</button>
+            <div id="updateMessage" style="display:none; margin-top: 10px;"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Histórico de Atualizações -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2>Histórico de Atualizações</h2>
+        </div>
+        <div class="card-body">
+          <% if (atualizacoes.length === 0) { %>
+            <p class="empty-message">Nenhuma atualização disponível</p>
+          <% } else { %>
+            <div class="updates-list">
+              <% atualizacoes.forEach(atualizacao => { %>
+                <div class="update-item">
+                  <div class="update-header">
+                    <strong><%= atualizacao.colaborador_nome %></strong>
+                    <span class="update-date"><%= new Date(atualizacao.data_criacao).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %></span>
+                  </div>
+                  <p><%= atualizacao.mensagem %></p>
+                </div>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Laudos Técnicos -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2>Laudos Técnicos</h2>
+        </div>
+        <div class="card-body">
+          <a href="/colaborador/laudo/novo/<%= servico.id %>" class="btn btn-primary btn-new">
+            + Novo Laudo
+          </a>
+          
+          <% if (laudos.length === 0) { %>
+            <p class="empty-message">Nenhum laudo criado</p>
+          <% } else { %>
+            <div class="laudos-list">
+              <% laudos.forEach(laudo => { %>
+                <div class="laudo-item">
+                  <div class="laudo-header">
+                    <h3><%= laudo.titulo %></h3>
+                    <span class="laudo-status laudo-<%= laudo.status %>">
+                      <%= laudo.status.toUpperCase() %>
+                    </span>
+                  </div>
+                  <p class="laudo-preview"><%= laudo.conteudo.substring(0, 200) %>...</p>
+                  <div class="laudo-actions">
+                    <% if (laudo.status === 'rascunho') { %>
+                      <button class="btn btn-secondary btn-small btn-edit-laudo" data-laudo-id="<%= laudo.id %>">Editar</button>
+                      <button class="btn btn-success btn-small btn-send-laudo" data-laudo-id="<%= laudo.id %>">Enviar para Cliente</button>
+                    <% } else { %>
+                      <small>Enviado em <%= new Date(laudo.data_envio).toLocaleDateString('pt-BR') %></small>
+                    <% } %>
+                  </div>
+                </div>
+              <% }); %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-wrapper {
+    display: flex;
+    min-height: calc(100vh - 200px);
+  }
+
+  .sidebar {
+    width: 250px;
+    background: #1a252f;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border-left-color: #3498db;
+  }
+
+  .nav-link .icon {
+    margin-right: 12px;
+  }
+
+  .nav-link.logout {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e74c3c;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-bar {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ecf0f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .back-link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .header-bar h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+  }
+
+  .content-area {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .info-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .info-card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .card-header {
+    background: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  .card-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .info-group {
+    margin-bottom: 15px;
+  }
+
+  .info-group label {
+    display: block;
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .info-group p {
+    margin: 0;
+    color: #2c3e50;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  }
+
+  .current-status {
+    margin: 15px 0 0 0;
+    font-size: 14px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-pendente {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-em_andamento {
+    background: #cfe2ff;
+    color: #084298;
+  }
+
+  .status-concluido {
+    background: #d1e7dd;
+    color: #0f5132;
+  }
+
+  .priority {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .priority-baixa {
+    background: #e8f4f8;
+    color: #0c5460;
+  }
+
+  .priority-normal {
+    background: #fff8e1;
+    color: #856404;
+  }
+
+  .priority-alta {
+    background: #ffe0e6;
+    color: #721c24;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .detail {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  .detail:last-child {
+    border-bottom: none;
+  }
+
+  .detail label {
+    display: block;
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .detail p {
+    margin: 0;
+    color: #2c3e50;
+  }
+
+  .empty-message {
+    text-align: center;
+    color: #95a5a6;
+    padding: 30px 0;
+    margin: 0;
+  }
+
+  .updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .update-item {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid #3498db;
+  }
+
+  .update-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .update-date {
+    color: #95a5a6;
+  }
+
+  .update-item p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .laudos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .laudo-item {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid #9b59b6;
+  }
+
+  .laudo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+  }
+
+  .laudo-header h3 {
+    margin: 0;
+    color: #2c3e50;
+  }
+
+  .laudo-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .laudo-rascunho {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .laudo-enviado {
+    background: #cfe2ff;
+    color: #084298;
+  }
+
+  .laudo-preview {
+    color: #555;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+
+  .laudo-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: #3498db;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2980b9;
+  }
+
+  .btn-secondary {
+    background: #95a5a6;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #7f8c8d;
+  }
+
+  .btn-success {
+    background: #27ae60;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background: #229954;
+  }
+
+  .btn-new {
+    margin-bottom: 15px;
+  }
+
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .laudo-actions {
+      flex-direction: column;
+    }
+
+    .btn-small {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  // Atualizar status
+  document.getElementById('statusSelect').addEventListener('change', function() {
+    const novoStatus = this.value;
+    const servicoId = window.location.pathname.split('/')[3];
+
+    fetch(`/colaborador/servico/${servicoId}/status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status: novoStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.sucesso) {
+        showMessage('✓ ' + data.mensagem, 'success');
+        setTimeout(() => location.reload(), 1500);
+      } else {
+        showMessage('✗ ' + data.mensagem, 'danger');
+      }
+    })
+    .catch(err => console.error(err));
+  });
+
+  // Submeter atualização
+  document.getElementById('updateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const servicoId = window.location.pathname.split('/')[3];
+    const mensagem = document.getElementById('mensagem').value;
+
+    fetch(`/colaborador/servico/${servicoId}/atualizar`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ mensagem })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const msgDiv = document.getElementById('updateMessage');
+      msgDiv.textContent = data.mensagem;
+      msgDiv.className = data.sucesso ? 'alert alert-success' : 'alert alert-danger';
+      msgDiv.style.display = 'block';
+
+      if (data.sucesso) {
+        document.getElementById('mensagem').value = '';
+        setTimeout(() => location.reload(), 1500);
+      }
+    })
+    .catch(err => console.error(err));
+  });
+
+  function enviarLaudo(laudoId) {
+    if (!confirm('Enviar este laudo para o cliente?')) return;
+
+    fetch(`/colaborador/laudo/${laudoId}/enviar`, {
+      method: 'POST'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.sucesso) {
+        alert(data.mensagem);
+        location.reload();
+      } else {
+        alert('Erro: ' + data.mensagem);
+      }
+    });
+  }
+
+  function editarLaudo(laudoId) {
+    alert('Funcionalidade de edição será implementada');
+  }
+
+  function showMessage(msg, type) {
+    const msgDiv = document.getElementById('updateMessage');
+    msgDiv.textContent = msg;
+    msgDiv.className = 'alert alert-' + type;
+    msgDiv.style.display = 'block';
+  }
+
+  document.querySelectorAll('.btn-send-laudo').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const laudoId = btn.dataset.laudoId;
+      enviarLaudo(laudoId);
+    });
+  });
+
+  document.querySelectorAll('.btn-edit-laudo').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const laudoId = btn.dataset.laudoId;
+      editarLaudo(laudoId);
+    });
+  });
+</script>
+
+<%- include('../partials/footer') %>

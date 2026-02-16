@@ -1,0 +1,484 @@
+<%- include('../partials/header') %>
+
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/colaborador/dashboard" class="nav-link">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a href="/colaborador/clientes" class="nav-link">
+        <span class="icon">👥</span> Clientes
+      </a>
+      <a href="/colaborador/admin" class="nav-link active">
+        <span class="icon">⚙️</span> Administração
+      </a>
+      <a href="/colaborador/perfil" class="nav-link">
+        <span class="icon">👤</span> Meu Perfil
+      </a>
+      <a href="/logout" class="nav-link logout">
+        <span class="icon">🚪</span> Sair
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header-bar">
+      <h1>Administração do Sistema</h1>
+    </div>
+
+    <div class="content-area">
+      <!-- Estatísticas Principais -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-content">
+            <h3>Serviços Totais</h3>
+            <p class="stat-value"><%= estatisticas.totalServicos %></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-content">
+            <h3>Clientes</h3>
+            <p class="stat-value"><%= estatisticas.totalClientes %></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-content">
+            <h3>Colaboradores</h3>
+            <p class="stat-value"><%= estatisticas.totalColaboradores %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status dos Serviços -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Distribuição de Serviços por Status</h2>
+        </div>
+        <div class="section-body">
+          <div class="chart-container">
+            <div class="status-distribution">
+              <div class="status-item">
+                <div class="status-bar">
+                  <div class="status-fill status-pendente" data-percent="<%= estatisticas.servicosPorStatus.pendente ? (estatisticas.servicosPorStatus.pendente / estatisticas.totalServicos * 100) : 0 %>"></div>
+                </div>
+                <div class="status-label">
+                  <span>Pendentes:</span>
+                  <strong><%= estatisticas.servicosPorStatus.pendente || 0 %></strong>
+                </div>
+              </div>
+
+              <div class="status-item">
+                <div class="status-bar">
+                  <div class="status-fill status-em_andamento" data-percent="<%= estatisticas.servicosPorStatus.em_andamento ? (estatisticas.servicosPorStatus.em_andamento / estatisticas.totalServicos * 100) : 0 %>"></div>
+                </div>
+                <div class="status-label">
+                  <span>Em Andamento:</span>
+                  <strong><%= estatisticas.servicosPorStatus.em_andamento || 0 %></strong>
+                </div>
+              </div>
+
+              <div class="status-item">
+                <div class="status-bar">
+                  <div class="status-fill status-concluido" data-percent="<%= estatisticas.servicosPorStatus.concluido ? (estatisticas.servicosPorStatus.concluido / estatisticas.totalServicos * 100) : 0 %>"></div>
+                </div>
+                <div class="status-label">
+                  <span>Concluídos:</span>
+                  <strong><%= estatisticas.servicosPorStatus.concluido || 0 %></strong>
+                </div>
+              </div>
+
+              <div class="status-item">
+                <div class="status-bar">
+                  <div class="status-fill status-cancelado" data-percent="<%= estatisticas.servicosPorStatus.cancelado ? (estatisticas.servicosPorStatus.cancelado / estatisticas.totalServicos * 100) : 0 %>"></div>
+                </div>
+                <div class="status-label">
+                  <span>Cancelados:</span>
+                  <strong><%= estatisticas.servicosPorStatus.cancelado || 0 %></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sistema -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Informações do Sistema</h2>
+        </div>
+        <div class="section-body">
+          <div class="system-info">
+            <div class="info-item">
+              <label>Versão:</label>
+              <p>1.0.0</p>
+            </div>
+            <div class="info-item">
+              <label>Banco de Dados:</label>
+              <p>SQLite 3</p>
+            </div>
+            <div class="info-item">
+              <label>Ambiente:</label>
+              <p><%= process.env.NODE_ENV || 'desenvolvimento' %></p>
+            </div>
+            <div class="info-item">
+              <label>Node.js:</label>
+              <p><%= process.version %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ações Administrativas -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Ações Administrativas</h2>
+        </div>
+        <div class="section-body">
+          <div class="actions-grid">
+            <button class="action-btn" onclick="manutencao()">
+              <span class="action-icon">🔧</span>
+              <span class="action-name">Manutenção</span>
+            </button>
+            <button class="action-btn" onclick="backup()">
+              <span class="action-icon">💾</span>
+              <span class="action-name">Backup</span>
+            </button>
+            <button class="action-btn" onclick="logs()">
+              <span class="action-icon">📋</span>
+              <span class="action-name">Logs</span>
+            </button>
+            <button class="action-btn" onclick="exportar()">
+              <span class="action-icon">📥</span>
+              <span class="action-name">Exportar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-wrapper {
+    display: flex;
+    min-height: calc(100vh - 200px);
+  }
+
+  .sidebar {
+    width: 250px;
+    background: #1a252f;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border-left-color: #3498db;
+  }
+
+  .nav-link .icon {
+    margin-right: 12px;
+  }
+
+  .nav-link.logout {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e74c3c;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-bar {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ecf0f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-bar h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+  }
+
+  .content-area {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-left: 4px solid #3498db;
+  }
+
+  .stat-icon {
+    font-size: 36px;
+  }
+
+  .stat-content h3 {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .stat-value {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .section-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #f8f9fa;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+  }
+
+  .section-body {
+    padding: 30px;
+  }
+
+  .chart-container {
+    padding: 20px 0;
+  }
+
+  .status-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .status-bar {
+    flex: 1;
+    height: 30px;
+    background: #ecf0f1;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .status-fill {
+    height: 100%;
+    transition: width 0.3s;
+  }
+
+  .status-fill.status-pendente {
+    background: #ffc107;
+  }
+
+  .status-fill.status-em_andamento {
+    background: #17a2b8;
+  }
+
+  .status-fill.status-concluido {
+    background: #28a745;
+  }
+
+  .status-fill.status-cancelado {
+    background: #dc3545;
+  }
+
+  .status-label {
+    min-width: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status-label span {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .status-label strong {
+    color: #2c3e50;
+    font-size: 18px;
+  }
+
+  .system-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .info-item {
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 15px;
+  }
+
+  .info-item:last-child {
+    border-bottom: none;
+  }
+
+  .info-item label {
+    display: block;
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .info-item p {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 16px;
+  }
+
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .action-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 30px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+    font-weight: 600;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  .action-icon {
+    font-size: 28px;
+  }
+
+  .action-name {
+    font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .actions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .status-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .status-label {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.status-fill').forEach((bar) => {
+    const value = Number(bar.dataset.percent || 0);
+    bar.style.width = `${Math.min(100, Math.max(0, value))}%`;
+  });
+
+  function manutencao() {
+    alert('Funcionalidade de manutenção será implementada em breve');
+  }
+
+  function backup() {
+    alert('Funcionalidade de backup será implementada em breve');
+  }
+
+  function logs() {
+    alert('Funcionalidade de visualização de logs será implementada em breve');
+  }
+
+  function exportar() {
+    alert('Funcionalidade de exportação será implementada em breve');
+  }
+</script>
+
+<%- include('../partials/footer') %>

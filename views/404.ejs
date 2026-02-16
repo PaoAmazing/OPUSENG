@@ -2,34 +2,94 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Portfólio de projetos - OPUS Engenharia. Conheça nossos trabalhos em projetos mecânicos, laudos técnicos, NR12 e consultoria.">
+  <meta name="description" content="Página não encontrada - OPUS Engenharia">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfólio - OPUS Engenharia</title>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4EW3SD16RP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4EW3SD16RP');
-
-    // Event snippet for Visualização de pag conversion page
-    gtag('event', 'conversion', {
-      'send_to': 'AW-17012385238/Portfolio-view',
-      'value': 1.0,
-      'currency': 'BRL'
-    });
-    gtag('event', 'conversion', {'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_'});
-    gtag('config', 'AW-17012385238');
-  </script>
+  <title>Página não encontrada - OPUS Engenharia</title>
 
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/header.css" />
   <link rel="stylesheet" href="/css/footer.css" />
-  <link rel="stylesheet" href="/css/portfolio.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    .error-section {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .error-content {
+      max-width: 600px;
+    }
+
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      color: #ff6b6b;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .error-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 20px 0;
+      color: #1a1a1a;
+    }
+
+    .error-description {
+      font-size: 16px;
+      color: #666;
+      margin: 20px 0 30px;
+      line-height: 1.6;
+    }
+
+    .error-icon {
+      font-size: 100px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-outline {
+      border: 2px solid #007bff;
+      color: #007bff;
+      background-color: transparent;
+    }
+
+    .btn-outline:hover {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
@@ -46,7 +106,6 @@
             <li><a href="/">Início</a></li>
             <li><a href="/servicos">Serviços</a></li>
             <li><a href="/sobre">Sobre</a></li>
-            <li><a href="/portfolio" class="active">Portfólio</a></li>
             <li><a href="/contato">Contato</a></li>
           </ul>
         </nav>
@@ -54,44 +113,22 @@
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="portfolio-page">
-    <!-- Page Header -->
-    <section class="page-header">
-      <div class="hero-overlay"></div>
-      <div class="container">
-        <h1>Nosso Portfólio</h1>
-        <p>Conheça os projetos que realizamos com excelência e dedicação</p>
-      </div>
-    </section>
-
-    <!-- Portfolio Grid -->
-    <section class="portfolio-content">
-      <div class="container">
-        <div class="portfolio-grid">
-          <% projects.forEach(project => { %>
-            <div class="portfolio-card">
-              <div class="portfolio-image">
-                <img src="/img/<%= project.image %>" alt="<%= project.name %>" />
-              </div>
-              <div class="portfolio-info">
-                <h3><%= project.name %></h3>
-                <p class="client"><strong>Cliente:</strong> <%= project.client %></p>
-                <p class="description"><%= project.description %></p>
-                <a href="/contato" class="btn btn-primary">Solicitar Serviço Semelhante</a>
-              </div>
-            </div>
-          <% }); %>
+  <!-- Error Section -->
+  <main>
+    <section class="error-section">
+      <div class="error-content">
+        <div class="error-icon">
+          <i data-lucide="alert-triangle"></i>
         </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-      <div class="container">
-        <h2>Interessado em Trabalhar Conosco?</h2>
-        <p>Temos uma equipe pronta para transformar suas ideias em soluções eficientes.</p>
-        <a href="/contato" class="btn btn-primary">Entre em Contato</a>
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Página não encontrada</h2>
+        <p class="error-description">
+          Desculpe, a página que você está procurando não existe ou foi movida. Não se preocupe, você pode voltar para a página inicial ou explorar nossos serviços.
+        </p>
+        <div class="btn-group">
+          <a href="/" class="btn btn-primary">Voltar à Página Inicial</a>
+          <a href="/servicos" class="btn btn-outline">Explorar Serviços</a>
+        </div>
       </div>
     </section>
   </main>
@@ -118,7 +155,6 @@
           <h4>Links Úteis</h4>
           <ul>
             <li><a href="/sobre">Sobre Nós</a></li>
-            <li><a href="/porfolio">Portfólio</a></li>
             <li><a href="/contato">Contato</a></li>
           </ul>
         </div>

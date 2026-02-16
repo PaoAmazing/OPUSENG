@@ -1,0 +1,452 @@
+<%- include('../partials/header') %>
+
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/cliente/dashboard" class="nav-link active">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a href="/cliente/laudos" class="nav-link">
+        <span class="icon">📋</span> Laudos Técnicos
+      </a>
+      <a href="/cliente/perfil" class="nav-link">
+        <span class="icon">👤</span> Meu Perfil
+      </a>
+      <a href="/logout" class="nav-link logout">
+        <span class="icon">🚪</span> Sair
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header-bar">
+      <div class="header-left">
+        <h1>Dashboard do Cliente</h1>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="user-name"><%= usuario.nome %></span>
+          <span class="user-type">Cliente</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <!-- Contadores -->
+      <div class="counters-grid">
+        <div class="counter-card">
+          <div class="counter-icon">📦</div>
+          <div class="counter-info">
+            <div class="counter-value"><%= contadores.total %></div>
+            <div class="counter-label">Serviços Totais</div>
+          </div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-icon">⏳</div>
+          <div class="counter-info">
+            <div class="counter-value"><%= contadores.pendente %></div>
+            <div class="counter-label">Pendentes</div>
+          </div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-icon">🔄</div>
+          <div class="counter-info">
+            <div class="counter-value"><%= contadores.em_andamento %></div>
+            <div class="counter-label">Em Andamento</div>
+          </div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-icon">✅</div>
+          <div class="counter-info">
+            <div class="counter-value"><%= contadores.concluido %></div>
+            <div class="counter-label">Concluídos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de Serviços -->
+      <div class="services-section">
+        <h2>Meus Serviços</h2>
+        
+        <% if (servicos.length === 0) { %>
+          <div class="empty-state">
+            <p>Você ainda não possui serviços. Entre em contato conosco!</p>
+            <a href="/contato" class="btn btn-primary">Entre em Contato</a>
+          </div>
+        <% } else { %>
+          <div class="services-list">
+            <% servicos.forEach(servico => { %>
+              <div class="service-card">
+                <div class="service-header">
+                  <h3><%= servico.titulo %></h3>
+                  <span class="status-badge status-<%= servico.status %>">
+                    <%= servico.status.replace(/_/g, ' ').toUpperCase() %>
+                  </span>
+                </div>
+                <p class="service-description"><%= servico.descricao || 'Sem descrição' %></p>
+                <div class="service-meta">
+                  <span class="priority priority-<%= servico.prioridade %>">
+                    <%= servico.prioridade.toUpperCase() %>
+                  </span>
+                  <span class="date">
+                    <%= new Date(servico.data_criacao).toLocaleDateString('pt-BR') %>
+                  </span>
+                </div>
+                <a href="/cliente/servico/<%= servico.id %>" class="btn btn-secondary btn-small">
+                  Ver Detalhes
+                </a>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-wrapper {
+    display: flex;
+    min-height: calc(100vh - 200px);
+  }
+
+  .sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #ecf0f1;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+    font-size: 14px;
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .nav-link.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border-left-color: #3498db;
+  }
+
+  .nav-link .icon {
+    margin-right: 12px;
+    font-size: 18px;
+  }
+
+  .nav-link.logout {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e74c3c;
+  }
+
+  .nav-link.logout:hover {
+    background: rgba(231, 76, 60, 0.2);
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-bar {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-bar h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .user-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+  }
+
+  .user-type {
+    font-size: 12px;
+    color: #95a5a6;
+  }
+
+  .content-area {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .counters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .counter-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+
+  .counter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .counter-icon {
+    font-size: 32px;
+    margin-right: 15px;
+  }
+
+  .counter-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .counter-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+  }
+
+  .counter-label {
+    font-size: 12px;
+    color: #95a5a6;
+    margin-top: 4px;
+  }
+
+  .services-section {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .services-section h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #95a5a6;
+  }
+
+  .empty-state p {
+    margin-bottom: 20px;
+  }
+
+  .services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .service-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    transition: all 0.3s;
+  }
+
+  .service-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+  }
+
+  .service-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 16px;
+    flex: 1;
+  }
+
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+
+  .status-pendente {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-em_andamento {
+    background: #cfe2ff;
+    color: #084298;
+  }
+
+  .status-concluido {
+    background: #d1e7dd;
+    color: #0f5132;
+  }
+
+  .status-cancelado {
+    background: #f8d7da;
+    color: #842029;
+  }
+
+  .service-description {
+    margin: 10px 0;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .service-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+
+  .priority {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .priority-baixa {
+    background: #e8f4f8;
+    color: #0c5460;
+  }
+
+  .priority-normal {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .priority-alta {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .date {
+    font-size: 12px;
+    color: #95a5a6;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: #3498db;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2980b9;
+  }
+
+  .btn-secondary {
+    background: #95a5a6;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #7f8c8d;
+  }
+
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+
+    .counters-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .header-right {
+      margin-top: 10px;
+    }
+  }
+</style>
+
+<%- include('../partials/footer') %>
