@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Projetos mecânicos, laudos técnicos, NR12 e consultoria. Conheça a OPUS Engenharia. Qualidade, agilidade e excelência técnica.">
+  <meta name="description"
+    content="Projetos mecânicos, laudos técnicos, NR12 e consultoria. Conheça a OPUS Engenharia. Qualidade, agilidade e excelência técnica.">
   <title>Sobre | OPUS Engenharia</title>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4EW3SD16RP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-4EW3SD16RP');
 
@@ -18,10 +20,10 @@
       'send_to': 'AW-17012385238/e4WlCI2X-dYaENbLkbA_',
       'value': 1.0,
       'currency': 'BRL'
-  });
-    gtag('event', 'conversion', {'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_'});
+    });
+    gtag('event', 'conversion', { 'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_' });
     gtag('config', 'AW-17012385238');
-  </script>  
+  </script>
 
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/header.css" />
@@ -46,11 +48,14 @@
             <li><a href="/servicos">Serviços</a></li>
             <li><a href="/sobre" class="active">Sobre</a></li>
             <li><a href="/contato">Contato</a></li>
+            <li><a href="/login">Login</a></li>
           </ul>
         </nav>
       </div>
     </div>
   </header>
+
+  <%- include('partials/whatsapp-float') %>
 
   <!-- Main Section -->
   <main class="about-section">
@@ -66,14 +71,16 @@
         <div class="grid-2">
           <div>
             <h2>Sobre a OPUS Engenharia</h2>
-            <p>A OPUS Engenharia foi fundada em 2025 por uma equipe de engenheiros apaixonados por criar soluções reais. Atuamos com uma abordagem completa: da concepção ao detalhamento técnico, com excelência e seriedade.</p>
+            <p>A OPUS Engenharia foi fundada em 2025 por uma equipe de engenheiros apaixonados por criar soluções reais.
+              Atuamos com uma abordagem completa: da concepção ao detalhamento técnico, com excelência e seriedade.</p>
           </div>
         </div>
 
         <div class="about-values">
           <h2>O que nos move</h2>
           <ul>
-            <li><i data-lucide="check"></i><strong>Excelência Técnica:</strong>buscamos a perfeição nos mínimos detalhes.</li>
+            <li><i data-lucide="check"></i><strong>Excelência Técnica:</strong>buscamos a perfeição nos mínimos
+              detalhes.</li>
             <li><i data-lucide="clock"></i><strong>Compromisso:</strong>com prazos, com normas e com você.</li>
             <li><i data-lucide="zap"></i><strong>Inovação:</strong>soluções criativas que resolvem problemas reais.</li>
           </ul>
@@ -81,7 +88,8 @@
 
         <div class="about-purpose">
           <h2>Nosso Propósito</h2>
-          <p>Trabalhar com ética, comprometimento e inovação para construir um futuro mais seguro, eficiente e sustentável através da engenharia.</p>
+          <p>Trabalhar com ética, comprometimento e inovação para construir um futuro mais seguro, eficiente e
+            sustentável através da engenharia.</p>
         </div>
       </div>
     </section>
@@ -89,62 +97,59 @@
 
   <!-- Footer -->
   <footer>
-      <div class="container">
-          <div class="footer-grid">
-              <div class="footer-col">
-                  <h3>OPUS Engenharia</h3>
-                  <p>Soluções em engenharia com excelência técnica e compromisso com a qualidade.</p>
-              </div>
-              <div class="footer-col">
-                  <h4>Serviços</h4>
-                  <ul>
-                    <li><a href="/contato">PMOC</a></li>
-                    <li><a href="/contato">Projetos Mecânicos</a></li>
-                    <li><a href="/contato">Laudos Técnicos</a></li>
-                    <li><a href="/contato">NR12</a></li>
-                    <li><a href="/contato">Consultoria</a></li>
-                  </ul>
-              </div>
-              <div class="footer-col">
-                  <h4>Links Úteis</h4>
-                  <ul>
-                      <li><a href="/sobre">Sobre Nós</a></li>
-                      <li><a href="/contato">Contato</a></li>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>OPUS Engenharia</h3>
+          <p>Soluções em engenharia com excelência técnica e compromisso com a qualidade.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Serviços</h4>
+          <ul>
+            <li><a href="/contato">PMOC</a></li>
+            <li><a href="/contato">Projetos Mecânicos</a></li>
+            <li><a href="/contato">Laudos Técnicos</a></li>
+            <li><a href="/contato">NR12</a></li>
+            <li><a href="/contato">Consultoria</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Links Úteis</h4>
+          <ul>
+            <li><a href="/sobre">Sobre Nós</a></li>
+            <li><a href="/contato">Contato</a></li>
 
-                  </ul>
-              </div>
-              <div class="footer-col">
-                  <h4>Contato</h4>
-                  <ul class="contact-info">
-                      <li>(61) 9553-3123</li>
-                      <li>opusengmec@gmail.com</li>
-                      <li>Brasília, DF</li>
-                  </ul>
-              </div>
-          </div>
-          <h4>Redes Sociais</h4>
-          <div class="social-buttons">
-          <a href="https://wa.me/5561995533123?text=Olá%2C+gostaria+de+fazer+um+orçamento+com+a+OPUS+Engenharia"
-              target="_blank"
-              aria-label="WhatsApp"
-              class="social-icon whatsapp">
-              <i data-lucide="message-circle"></i>
-          </a>
-          <a href="https://www.instagram.com/opusengenharia61/"
-              target="_blank"
-              aria-label="Instagram"
-              class="social-icon instagram">
-              <i data-lucide="instagram"></i>
-          </a>
-          </div>
-          <div class="copyright">
-              <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
-          </div>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul class="contact-info">
+            <li>(61) 9553-3123</li>
+            <li>opusengmec@gmail.com</li>
+            <li>Brasília, DF</li>
+          </ul>
+        </div>
       </div>
+      <h4>Redes Sociais</h4>
+      <div class="social-buttons">
+        <a href="https://wa.me/5561995533123?text=Olá%2C+gostaria+de+fazer+um+orçamento+com+a+OPUS+Engenharia"
+          target="_blank" aria-label="WhatsApp" class="social-icon whatsapp">
+          <i data-lucide="message-circle"></i>
+        </a>
+        <a href="https://www.instagram.com/opusengenharia61/" target="_blank" aria-label="Instagram"
+          class="social-icon instagram">
+          <i data-lucide="instagram"></i>
+        </a>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
+      </div>
+    </div>
   </footer>
 
   <script>
     lucide.createIcons();
   </script>
 </body>
+
 </html>

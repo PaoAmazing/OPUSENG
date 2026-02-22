@@ -1,35 +1,368 @@
-<%- include('../partials/header') %>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<div class="dashboard-wrapper">
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-    </div>
-    <nav class="sidebar-nav">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Perfil | OPUS Engenharia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/painel.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .perfil-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    .perfil-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .avatar-icon {
+      font-size: 48px;
+    }
+
+    .perfil-content {
+      flex: 1;
+    }
+
+    .perfil-content h2 {
+      margin: 0 0 5px 0;
+      color: #2c3e50;
+      font-size: 28px;
+    }
+
+    .perfil-type {
+      margin: 0 0 20px 0;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .perfil-form {
+      margin-top: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-control:disabled {
+      background: #f5f5f5;
+      color: #999;
+    }
+
+    .form-text {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .form-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .form-info p {
+      margin: 8px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .form-info strong {
+      color: #2c3e50;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-ativo {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .status-inativo {
+      background: #f8d7da;
+      color: #842029;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+    }
+
+    .btn-secondary {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #7f8c8d;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid;
+    }
+
+    .alert.success {
+      background: #d1e7dd;
+      color: #0f5132;
+      border-color: #27ae60;
+    }
+
+    .alert.danger {
+      background: #f8d7da;
+      color: #842029;
+      border-color: #e74c3c;
+    }
+
+    .info-section,
+    .security-section,
+    .stats-section {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .info-section h3,
+    .security-section h3,
+    .stats-section h3 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 15px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .info-value {
+      color: #2c3e50;
+      font-size: 16px;
+    }
+
+    .security-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 5px;
+    }
+
+    .security-item h4 {
+      margin: 0 0 5px 0;
+      color: #2c3e50;
+    }
+
+    .security-item p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-item {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      border-top: 3px solid #667eea;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      display: block;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      display: block;
+      color: #2c3e50;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .perfil-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .security-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a href="/" class="sidebar-brand">
+      <img src="/img/logo.png" alt="Logo OPUS" />
+      <span class="sidebar-brand-text">OPUS <em>Engenharia</em></span>
+    </a>
+
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">Menu</p>
       <a href="/colaborador/dashboard" class="nav-link">
-        <span class="icon">📊</span> Dashboard
+        <i data-lucide="layout-dashboard"></i> Dashboard
       </a>
       <a href="/colaborador/clientes" class="nav-link">
-        <span class="icon">👥</span> Clientes
+        <i data-lucide="users"></i> Clientes
       </a>
       <a href="/colaborador/admin" class="nav-link">
-        <span class="icon">⚙️</span> Administração
+        <i data-lucide="settings-2"></i> Administracao
       </a>
       <a href="/colaborador/perfil" class="nav-link active">
-        <span class="icon">👤</span> Meu Perfil
+        <i data-lucide="user"></i> Meu Perfil
       </a>
-      <a href="/logout" class="nav-link logout">
-        <span class="icon">🚪</span> Sair
-      </a>
-    </nav>
-  </div>
-
-  <div class="main-content">
-    <div class="header-bar">
-      <h1>Meu Perfil</h1>
     </div>
 
-    <div class="content-area">
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer">
+      <a href="/logout" class="nav-link logout">
+        <i data-lucide="log-out"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Meu Perfil</span>
+      <div class="topbar-user">
+        <div class="user-avatar">
+          <%= usuario.nome.charAt(0).toUpperCase() %>
+        </div>
+        <div class="user-details">
+          <span class="user-name"><%= usuario.nome %></span>
+          <span class="user-role">Colaborador</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
       <div class="perfil-card">
         <div class="perfil-avatar">
           <span class="avatar-icon">👤</span>
@@ -41,10 +374,10 @@
           <form id="perfilForm" class="perfil-form">
             <div class="form-group">
               <label for="nome">Nome Completo:</label>
-              <input 
-                type="text" 
-                id="nome" 
-                name="nome" 
+              <input
+                type="text"
+                id="nome"
+                name="nome"
                 value="<%= usuario.nome %>"
                 class="form-control"
                 required
@@ -53,22 +386,22 @@
 
             <div class="form-group">
               <label for="email">Email:</label>
-              <input 
-                type="email" 
-                id="email" 
+              <input
+                type="email"
+                id="email"
                 value="<%= usuario.email %>"
                 class="form-control"
                 disabled
               >
-              <small class="form-text">Email não pode ser alterado</small>
+              <small class="form-text">Email nao pode ser alterado</small>
             </div>
 
             <div class="form-group">
               <label for="telefone">Telefone:</label>
-              <input 
-                type="tel" 
-                id="telefone" 
-                name="telefone" 
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
                 value="<%= usuario.telefone || '' %>"
                 class="form-control"
                 placeholder="(11) 9999-9999"
@@ -89,7 +422,7 @@
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+              <button type="submit" class="btn btn-primary">Salvar Alteracoes</button>
               <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancelar</button>
             </div>
 
@@ -100,28 +433,26 @@
         </div>
       </div>
 
-      <!-- Informações Adicionais -->
       <div class="info-section">
-        <h3>Informações de Conta</h3>
+        <h3>Informacoes de Conta</h3>
         <div class="info-grid">
           <div class="info-item">
             <span class="info-label">ID da Conta:</span>
             <span class="info-value"><%= usuario.id %></span>
           </div>
           <div class="info-item">
-            <span class="info-label">Tipo de Usuário:</span>
+            <span class="info-label">Tipo de Usuario:</span>
             <span class="info-value">Colaborador</span>
           </div>
           <div class="info-item">
-            <span class="info-label">Data de Criação:</span>
+            <span class="info-label">Data de Criacao:</span>
             <span class="info-value"><%= new Date(usuario.data_criacao).toLocaleDateString('pt-BR') %></span>
           </div>
         </div>
       </div>
 
-      <!-- Segurança -->
       <div class="security-section">
-        <h3>Segurança</h3>
+        <h3>Seguranca</h3>
         <div class="security-item">
           <div>
             <h4>Alterar Senha</h4>
@@ -131,13 +462,12 @@
         </div>
       </div>
 
-      <!-- Estatísticas -->
       <div class="stats-section">
-        <h3>Minhas Estatísticas</h3>
+        <h3>Minhas Estatisticas</h3>
         <div class="stats-grid">
           <div class="stat-item">
             <span class="stat-icon">📦</span>
-            <span class="stat-label">Serviços Gerenciados</span>
+            <span class="stat-label">Servicos Gerenciados</span>
             <span class="stat-value">-</span>
           </div>
           <div class="stat-item">
@@ -147,448 +477,59 @@
           </div>
           <div class="stat-item">
             <span class="stat-icon">✅</span>
-            <span class="stat-label">Serviços Concluídos</span>
+            <span class="stat-label">Servicos Concluidos</span>
             <span class="stat-value">-</span>
           </div>
           <div class="stat-item">
             <span class="stat-icon">⭐</span>
-            <span class="stat-label">Avaliação</span>
+            <span class="stat-label">Avaliacao</span>
             <span class="stat-value">-</span>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
-</div>
 
-<style>
-  .dashboard-wrapper {
-    display: flex;
-    min-height: calc(100vh - 200px);
-  }
-
-  .sidebar {
-    width: 250px;
-    background: #1a252f;
-    color: white;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .sidebar-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .sidebar-header h3 {
-    margin: 0;
-    font-size: 16px;
-  }
-
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    color: #bdc3c7;
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-  }
-
-  .nav-link:hover,
-  .nav-link.active {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
-    border-left-color: #3498db;
-  }
-
-  .nav-link .icon {
-    margin-right: 12px;
-  }
-
-  .nav-link.logout {
-    margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e74c3c;
-  }
-
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-bar {
-    background: white;
-    padding: 20px 30px;
-    border-bottom: 1px solid #ecf0f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .header-bar h1 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 24px;
-  }
-
-  .content-area {
-    padding: 30px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  .perfil-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: flex-start;
-    gap: 40px;
-  }
-
-  .perfil-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .avatar-icon {
-    font-size: 48px;
-  }
-
-  .perfil-content {
-    flex: 1;
-  }
-
-  .perfil-content h2 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-    font-size: 28px;
-  }
-
-  .perfil-type {
-    margin: 0 0 20px 0;
-    color: #667eea;
-    font-weight: 600;
-  }
-
-  .perfil-form {
-    margin-top: 20px;
-  }
-
-  .form-group {
-    margin-bottom: 25px;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: border-color 0.3s;
-    box-sizing: border-box;
-  }
-
-  .form-control:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
-
-  .form-control:disabled {
-    background: #f5f5f5;
-    color: #999;
-  }
-
-  .form-text {
-    display: block;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #666;
-  }
-
-  .form-info {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-
-  .form-info p {
-    margin: 8px 0;
-    color: #555;
-    font-size: 14px;
-  }
-
-  .form-info strong {
-    color: #2c3e50;
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .status-ativo {
-    background: #d1e7dd;
-    color: #0f5132;
-  }
-
-  .status-inativo {
-    background: #f8d7da;
-    color: #842029;
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .btn-primary {
-    background: #667eea;
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: #5568d3;
-  }
-
-  .btn-secondary {
-    background: #95a5a6;
-    color: white;
-  }
-
-  .btn-secondary:hover {
-    background: #7f8c8d;
-  }
-
-  .btn-sm {
-    padding: 8px 16px;
-    font-size: 13px;
-  }
-
-  .alert {
-    padding: 15px;
-    border-radius: 5px;
-    border-left: 4px solid;
-  }
-
-  .alert.success {
-    background: #d1e7dd;
-    color: #0f5132;
-    border-color: #27ae60;
-  }
-
-  .alert.danger {
-    background: #f8d7da;
-    color: #842029;
-    border-color: #e74c3c;
-  }
-
-  .info-section,
-  .security-section,
-  .stats-section {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-  }
-
-  .info-section h3,
-  .security-section h3,
-  .stats-section h3 {
-    margin-top: 0;
-    color: #2c3e50;
-    border-bottom: 1px solid #ecf0f1;
-    padding-bottom: 15px;
-  }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
-
-  .info-item {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .info-label {
-    font-weight: 600;
-    color: #666;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .info-value {
-    color: #2c3e50;
-    font-size: 16px;
-  }
-
-  .security-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 5px;
-  }
-
-  .security-item h4 {
-    margin: 0 0 5px 0;
-    color: #2c3e50;
-  }
-
-  .security-item p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
-
-  .stat-item {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    border-top: 3px solid #667eea;
-  }
-
-  .stat-icon {
-    font-size: 24px;
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .stat-label {
-    display: block;
-    color: #666;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .stat-value {
-    display: block;
-    color: #2c3e50;
-    font-size: 24px;
-    font-weight: 700;
-  }
-
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-
-    .perfil-card {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 20px;
-    }
-
-    .form-actions {
-      flex-direction: column;
-    }
-
-    .btn {
-      width: 100%;
-      text-align: center;
-    }
-
-    .security-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-</style>
-
-<script>
-  document.getElementById('perfilForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const dados = {
-      nome: formData.get('nome'),
-      telefone: formData.get('telefone')
-    };
-
-    fetch('/colaborador/perfil/atualizar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dados)
-    })
-    .then(res => res.json())
-    .then(data => {
-      const messageContainer = document.getElementById('messageContainer');
-      const message = document.getElementById('message');
-      
-      messageContainer.style.display = 'block';
-      message.textContent = data.mensagem;
-      message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
-
-      if (data.sucesso) {
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
-      }
-    })
-    .catch(err => {
-      console.error('Erro:', err);
-      alert('Erro ao atualizar perfil');
+  <script>
+    lucide.createIcons();
+
+    document.getElementById('perfilForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const dados = {
+        nome: formData.get('nome'),
+        telefone: formData.get('telefone')
+      };
+
+      fetch('/colaborador/perfil/atualizar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        const messageContainer = document.getElementById('messageContainer');
+        const message = document.getElementById('message');
+
+        messageContainer.style.display = 'block';
+        message.textContent = data.mensagem;
+        message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
+
+        if (data.sucesso) {
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        console.error('Erro:', err);
+        alert('Erro ao atualizar perfil');
+      });
     });
-  });
-</script>
+  </script>
+</body>
 
-<%- include('../partials/footer') %>
+</html>

@@ -1,38 +1,251 @@
-<%- include('../partials/header') %>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<div class="dashboard-wrapper">
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-    </div>
-    <nav class="sidebar-nav">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laudo Tecnico | OPUS Engenharia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/painel.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .back-link {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .laudo-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: #f8f9fa;
+      padding: 20px;
+      border-bottom: 1px solid #ecf0f1;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 18px;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .form {
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      background: white;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 300px;
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+    }
+
+    .char-count {
+      display: block;
+      margin-top: 8px;
+      color: #95a5a6;
+      font-size: 12px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #3498db;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2980b9;
+    }
+
+    .btn-secondary {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #7f8c8d;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid;
+    }
+
+    .alert.success {
+      background: #d1e7dd;
+      color: #0f5132;
+      border-color: #27ae60;
+    }
+
+    .alert.danger {
+      background: #f8d7da;
+      color: #842029;
+      border-color: #e74c3c;
+    }
+
+    .service-info {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 5px;
+      border-left: 4px solid #3498db;
+    }
+
+    .service-info h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-item label {
+      font-weight: 600;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .info-item p {
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .form-textarea {
+        min-height: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a href="/" class="sidebar-brand">
+      <img src="/img/logo.png" alt="Logo OPUS" />
+      <span class="sidebar-brand-text">OPUS <em>Engenharia</em></span>
+    </a>
+
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">Menu</p>
       <a href="/colaborador/dashboard" class="nav-link">
-        <span class="icon">📊</span> Dashboard
+        <i data-lucide="layout-dashboard"></i> Dashboard
       </a>
       <a href="/colaborador/clientes" class="nav-link">
-        <span class="icon">👥</span> Clientes
+        <i data-lucide="users"></i> Clientes
       </a>
       <a href="/colaborador/admin" class="nav-link">
-        <span class="icon">⚙️</span> Administração
+        <i data-lucide="settings-2"></i> Administracao
       </a>
       <a href="/colaborador/perfil" class="nav-link">
-        <span class="icon">👤</span> Meu Perfil
+        <i data-lucide="user"></i> Meu Perfil
       </a>
-      <a href="/logout" class="nav-link logout">
-        <span class="icon">🚪</span> Sair
-      </a>
-    </nav>
-  </div>
-
-  <div class="main-content">
-    <div class="header-bar">
-      <div class="header-left">
-        <a href="/colaborador/servico/<%= servico.id %>" class="back-link">← Voltar</a>
-        <h1>Laudo Técnico</h1>
-      </div>
     </div>
 
-    <div class="content-area">
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer">
+      <a href="/logout" class="nav-link logout">
+        <i data-lucide="log-out"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Laudo Tecnico</span>
+      <div class="topbar-user">
+        <div class="user-avatar">
+          <%= usuario.nome.charAt(0).toUpperCase() %>
+        </div>
+        <div class="user-details">
+          <span class="user-name"><%= usuario.nome %></span>
+          <span class="user-role">Colaborador</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <a href="/colaborador/servico/<%= servico.id %>" class="back-link">← Voltar</a>
+
       <div class="laudo-card">
         <div class="card-header">
           <h2><%= laudo ? 'Editar Laudo' : 'Criar Novo Laudo' %></h2>
@@ -41,26 +254,26 @@
         <div class="card-body">
           <form id="laudoForm" class="form">
             <div class="form-group">
-              <label for="titulo">Título do Laudo:</label>
-              <input 
-                type="text" 
-                id="titulo" 
-                name="titulo" 
-                class="form-control" 
-                placeholder="Ex: Inspeção de Estrutura"
+              <label for="titulo">Titulo do Laudo:</label>
+              <input
+                type="text"
+                id="titulo"
+                name="titulo"
+                class="form-control"
+                placeholder="Ex: Inspecao de Estrutura"
                 value="<%= laudo ? laudo.titulo : '' %>"
                 required
               >
             </div>
 
             <div class="form-group">
-              <label for="conteudo">Conteúdo do Laudo:</label>
-              <textarea 
-                id="conteudo" 
-                name="conteudo" 
-                class="form-control form-textarea" 
-                rows="15" 
-                placeholder="Descreva detalhadamente o laudo técnico..."
+              <label for="conteudo">Conteudo do Laudo:</label>
+              <textarea
+                id="conteudo"
+                name="conteudo"
+                class="form-control form-textarea"
+                rows="15"
+                placeholder="Descreva detalhadamente o laudo tecnico..."
                 required
               ><%= laudo ? laudo.conteudo : '' %></textarea>
               <small class="char-count">
@@ -86,358 +299,80 @@
             </div>
           </form>
 
-          <!-- Info sobre o Serviço -->
           <div class="service-info">
-            <h3>Informações do Serviço</h3>
+            <h3>Informacoes do Servico</h3>
             <div class="info-grid">
               <div class="info-item">
                 <label>Cliente:</label>
                 <p><%= servico.cliente_nome || 'N/A' %></p>
               </div>
               <div class="info-item">
-                <label>Serviço:</label>
+                <label>Servico:</label>
                 <p><%= servico.titulo %></p>
               </div>
               <div class="info-item">
-                <label>Data de Criação:</label>
+                <label>Data de Criacao:</label>
                 <p><%= new Date(servico.data_criacao).toLocaleDateString('pt-BR') %></p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
-</div>
 
-<style>
-  .dashboard-wrapper {
-    display: flex;
-    min-height: calc(100vh - 200px);
-  }
+  <script>
+    lucide.createIcons();
 
-  .sidebar {
-    width: 250px;
-    background: #1a252f;
-    color: white;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
+    const conteudoInput = document.getElementById('conteudo');
+    const charCount = document.getElementById('charCount');
 
-  .sidebar-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .sidebar-header h3 {
-    margin: 0;
-    font-size: 16px;
-  }
-
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    color: #bdc3c7;
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-  }
-
-  .nav-link:hover,
-  .nav-link.active {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
-    border-left-color: #3498db;
-  }
-
-  .nav-link .icon {
-    margin-right: 12px;
-  }
-
-  .nav-link.logout {
-    margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e74c3c;
-  }
-
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-bar {
-    background: white;
-    padding: 20px 30px;
-    border-bottom: 1px solid #ecf0f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .back-link {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .header-bar h1 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 24px;
-  }
-
-  .content-area {
-    padding: 30px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  .laudo-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-
-  .card-header {
-    background: #f8f9fa;
-    padding: 20px;
-    border-bottom: 1px solid #ecf0f1;
-  }
-
-  .card-header h2 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 18px;
-  }
-
-  .card-body {
-    padding: 30px;
-  }
-
-  .form {
-    margin-bottom: 40px;
-  }
-
-  .form-group {
-    margin-bottom: 25px;
-  }
-
-  .form-group label {
-    display: block;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    background: white;
-    font-family: inherit;
-    transition: border-color 0.3s;
-    box-sizing: border-box;
-  }
-
-  .form-control:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-  }
-
-  .form-textarea {
-    resize: vertical;
-    min-height: 300px;
-    font-family: 'Courier New', monospace;
-    line-height: 1.6;
-  }
-
-  .char-count {
-    display: block;
-    margin-top: 8px;
-    color: #95a5a6;
-    font-size: 12px;
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-  }
-
-  .btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .btn-primary {
-    background: #3498db;
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: #2980b9;
-  }
-
-  .btn-secondary {
-    background: #95a5a6;
-    color: white;
-  }
-
-  .btn-secondary:hover {
-    background: #7f8c8d;
-  }
-
-  .alert {
-    padding: 15px;
-    border-radius: 5px;
-    border-left: 4px solid;
-  }
-
-  .alert.success {
-    background: #d1e7dd;
-    color: #0f5132;
-    border-color: #27ae60;
-  }
-
-  .alert.danger {
-    background: #f8d7da;
-    color: #842029;
-    border-color: #e74c3c;
-  }
-
-  .service-info {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 5px;
-    border-left: 4px solid #3498db;
-  }
-
-  .service-info h3 {
-    margin-top: 0;
-    color: #2c3e50;
-  }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 15px;
-  }
-
-  .info-item {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .info-item label {
-    font-weight: 600;
-    color: #666;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
-
-  .info-item p {
-    margin: 0;
-    color: #2c3e50;
-  }
-
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-
-    .content-area {
-      padding: 20px;
-    }
-
-    .form-actions {
-      flex-direction: column;
-    }
-
-    .btn {
-      width: 100%;
-      text-align: center;
-    }
-
-    .form-textarea {
-      min-height: 200px;
-    }
-  }
-</style>
-
-<script>
-  // Contador de caracteres
-  const conteudoInput = document.getElementById('conteudo');
-  const charCount = document.getElementById('charCount');
-
-  conteudoInput.addEventListener('input', function() {
-    charCount.textContent = this.value.length;
-  });
-
-  // Inicializar contador
-  charCount.textContent = conteudoInput.value.length;
-
-  // Submeter formulário
-  document.getElementById('laudoForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const dados = {
-      servico_id: formData.get('servico_id'),
-      cliente_id: formData.get('cliente_id'),
-      titulo: formData.get('titulo'),
-      conteudo: formData.get('conteudo'),
-      laudo_id: formData.get('laudo_id') || null
-    };
-
-    fetch('/colaborador/laudo/salvar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dados)
-    })
-    .then(res => res.json())
-    .then(data => {
-      const messageContainer = document.getElementById('messageContainer');
-      const message = document.getElementById('message');
-      
-      messageContainer.style.display = 'block';
-      message.textContent = data.mensagem;
-      message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
-
-      if (data.sucesso) {
-        setTimeout(() => {
-          history.back();
-        }, 2000);
-      }
-    })
-    .catch(err => {
-      console.error('Erro:', err);
-      alert('Erro ao salvar laudo');
+    conteudoInput.addEventListener('input', function() {
+      charCount.textContent = this.value.length;
     });
-  });
-</script>
 
-<%- include('../partials/footer') %>
+    charCount.textContent = conteudoInput.value.length;
+
+    document.getElementById('laudoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const dados = {
+        servico_id: formData.get('servico_id'),
+        cliente_id: formData.get('cliente_id'),
+        titulo: formData.get('titulo'),
+        conteudo: formData.get('conteudo'),
+        laudo_id: formData.get('laudo_id') || null
+      };
+
+      fetch('/colaborador/laudo/salvar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        const messageContainer = document.getElementById('messageContainer');
+        const message = document.getElementById('message');
+
+        messageContainer.style.display = 'block';
+        message.textContent = data.mensagem;
+        message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
+
+        if (data.sucesso) {
+          setTimeout(() => {
+            history.back();
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        console.error('Erro:', err);
+        alert('Erro ao salvar laudo');
+      });
+    });
+  </script>
+</body>
+
+</html>

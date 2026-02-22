@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Projetos mecânicos, laudos técnicos, NR12 e consultoria. Conheça a OPUS Engenharia. Qualidade, agilidade e excelência técnica.">
+    <meta name="description"
+        content="Projetos mecânicos, laudos técnicos, NR12 e consultoria. Conheça a OPUS Engenharia. Qualidade, agilidade e excelência técnica.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serviços - OPUS Engenharia</title>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4EW3SD16RP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4EW3SD16RP');
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4EW3SD16RP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4EW3SD16RP');
 
-    // Event snippet for Visualização de pag conversion page
-    gtag('event', 'conversion', {
-      'send_to': 'AW-17012385238/TjfiCPzs6tYaENbLkbA_',
-      'value': 1.0,
-      'currency': 'BRL'
-  });
-    gtag('event', 'conversion', {'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_'});
-    gtag('config', 'AW-17012385238');
-  </script>    
+        // Event snippet for Visualização de pag conversion page
+        gtag('event', 'conversion', {
+            'send_to': 'AW-17012385238/TjfiCPzs6tYaENbLkbA_',
+            'value': 1.0,
+            'currency': 'BRL'
+        });
+        gtag('event', 'conversion', { 'send_to': 'AW-17012385238/YOtDCP2i8NYaENbLkbA_' });
+        gtag('config', 'AW-17012385238');
+    </script>
 
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/header.css" />
@@ -47,11 +49,14 @@
                         <li><a href="/servicos" class="active">Serviços</a></li>
                         <li><a href="/sobre">Sobre</a></li>
                         <li><a href="/contato">Contato</a></li>
+                        <li><a href="/login">Login</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
+
+    <%- include('partials/whatsapp-float') %>
 
     <!-- Main -->
     <main class="services-page">
@@ -133,29 +138,30 @@
                         </ul>
                         <a href="/contato" class="btn btn-primary">Solicitar Orçamento</a>
                     </div>
-                   <!-- Service Item 6 -->
-                   <div class="service-card-full">
+                    <!-- Service Item 6 -->
+                    <div class="service-card-full">
                         <i data-lucide="refresh-ccw"></i>
-                           <h3>Reclassificação de Monta</h3>
-                           <p>Serviço especializado para veículos sinistrados :</p>
-                           <ul>
-                               <li>Emissão de laudo técnico detalhado</li>
-                               <li>RESOLUÇÃO Nº 810, DE 15 DE DEZEMBRO DE 2020</li>
-                               <li>Orientação completa sobre documentação</li>
-                               <li>Análise estrutural e mecânica do veículo</li>
-                           </ul>
-                           <a href="/contato" class="btn btn-primary">Solicitar Orçamento</a>
-                       </div>
-                   </div>
-               </div>
-           </section>
+                        <h3>Reclassificação de Monta</h3>
+                        <p>Serviço especializado para veículos sinistrados :</p>
+                        <ul>
+                            <li>Emissão de laudo técnico detalhado</li>
+                            <li>RESOLUÇÃO Nº 810, DE 15 DE DEZEMBRO DE 2020</li>
+                            <li>Orientação completa sobre documentação</li>
+                            <li>Análise estrutural e mecânica do veículo</li>
+                        </ul>
+                        <a href="/contato" class="btn btn-primary">Solicitar Orçamento</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-       
-	<!-- CTA Section -->
+
+        <!-- CTA Section -->
         <section class="cta-section">
             <div class="container">
                 <h2>Precisa de um Serviço Personalizado?</h2>
-                <p>Entre em contato conosco para discutirmos suas necessidades específicas e encontrarmos a melhor solução.</p>
+                <p>Entre em contato conosco para discutirmos suas necessidades específicas e encontrarmos a melhor
+                    solução.</p>
                 <a href="/contato" class="btn btn-primary">Entre em contato</a>
             </div>
         </section>
@@ -184,7 +190,7 @@
                     <ul>
                         <li><a href="/sobre">Sobre Nós</a></li>
                         <li><a href="/contato">Contato</a></li>
-                
+
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -198,18 +204,14 @@
             </div>
             <h4>Redes Sociais</h4>
             <div class="social-buttons">
-            <a href="https://wa.me/5561995533123?text=Olá%2C+gostaria+de+fazer+um+orçamento+com+a+OPUS+Engenharia"
-                target="_blank"
-                aria-label="WhatsApp"
-                class="social-icon whatsapp">
-                <i data-lucide="message-circle"></i>
-            </a>
-            <a href="https://www.instagram.com/opusengenharia61/"
-                target="_blank"
-                aria-label="Instagram"
-                class="social-icon instagram">
-                <i data-lucide="instagram"></i>
-            </a>
+                <a href="https://wa.me/5561995533123?text=Olá%2C+gostaria+de+fazer+um+orçamento+com+a+OPUS+Engenharia"
+                    target="_blank" aria-label="WhatsApp" class="social-icon whatsapp">
+                    <i data-lucide="message-circle"></i>
+                </a>
+                <a href="https://www.instagram.com/opusengenharia61/" target="_blank" aria-label="Instagram"
+                    class="social-icon instagram">
+                    <i data-lucide="instagram"></i>
+                </a>
             </div>
             <div class="copyright">
                 <p>&copy; 2025 OPUS Engenharia. Todos os direitos reservados.</p>
@@ -221,4 +223,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>

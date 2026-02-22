@@ -1,37 +1,282 @@
-<%- include('../partials/header') %>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<div class="dashboard-wrapper">
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-    </div>
-    <nav class="sidebar-nav">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meus Laudos Tecnicos | OPUS Engenharia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/painel.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #95a5a6;
+    }
+
+    .laudos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .laudo-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .laudo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .laudo-card-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .laudo-card-header h3 {
+      margin: 0;
+      font-size: 16px;
+      flex: 1;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+
+    .laudo-rascunho {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .laudo-enviado {
+      background: rgba(66, 184, 221, 0.8);
+      color: white;
+    }
+
+    .laudo-assinado {
+      background: rgba(46, 204, 113, 0.8);
+      color: white;
+    }
+
+    .laudo-card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .laudo-service {
+      margin: 0 0 10px 0;
+      color: #555;
+      font-size: 13px;
+    }
+
+    .laudo-creator {
+      margin: 0 0 15px 0;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .laudo-service strong,
+    .laudo-creator strong {
+      color: #2c3e50;
+    }
+
+    .laudo-content-preview {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      flex: 1;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .laudo-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+    }
+
+    .date-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .date-info .label {
+      color: #95a5a6;
+      font-weight: 600;
+    }
+
+    .date-info .value {
+      color: #2c3e50;
+    }
+
+    .btn-view {
+      margin-top: auto;
+      padding: 10px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-view:hover {
+      background: #5568d3;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 700px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #95a5a6;
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      color: #2c3e50;
+    }
+
+    .modal-body {
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .modal-body h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .modal-text {
+      color: #555;
+      line-height: 1.8;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .laudos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a href="/" class="sidebar-brand">
+      <img src="/img/logo.png" alt="Logo OPUS" />
+      <span class="sidebar-brand-text">OPUS <em>Engenharia</em></span>
+    </a>
+
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">Menu</p>
       <a href="/cliente/dashboard" class="nav-link">
-        <span class="icon">📊</span> Dashboard
+        <i data-lucide="layout-dashboard"></i> Dashboard
       </a>
       <a href="/cliente/laudos" class="nav-link active">
-        <span class="icon">📋</span> Laudos Técnicos
+        <i data-lucide="file-text"></i> Laudos Tecnicos
       </a>
       <a href="/cliente/perfil" class="nav-link">
-        <span class="icon">👤</span> Meu Perfil
+        <i data-lucide="user"></i> Meu Perfil
       </a>
-      <a href="/logout" class="nav-link logout">
-        <span class="icon">🚪</span> Sair
-      </a>
-    </nav>
-  </div>
-
-  <div class="main-content">
-    <div class="header-bar">
-      <div class="header-left">
-        <h1>Meus Laudos Técnicos</h1>
-      </div>
     </div>
 
-    <div class="content-area">
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer">
+      <a href="/logout" class="nav-link logout">
+        <i data-lucide="log-out"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Meus Laudos Tecnicos</span>
+      <div class="topbar-user">
+        <div class="user-avatar">
+          <%= usuario.nome.charAt(0).toUpperCase() %>
+        </div>
+        <div class="user-details">
+          <span class="user-name"><%= usuario.nome %></span>
+          <span class="user-role">Cliente</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
       <% if (laudos.length === 0) { %>
         <div class="empty-state">
-          <p>Você ainda não possui laudos técnicos.</p>
+          <p>Voce ainda nao possui laudos tecnicos.</p>
         </div>
       <% } else { %>
         <div class="laudos-grid">
@@ -43,15 +288,15 @@
                   <%= laudo.status.toUpperCase() %>
                 </span>
               </div>
-              
+
               <div class="laudo-card-body">
                 <p class="laudo-service">
-                  <strong>Serviço:</strong> <%= laudo.servico_titulo || 'N/A' %>
+                  <strong>Servico:</strong> <%= laudo.servico_titulo || 'N/A' %>
                 </p>
                 <p class="laudo-creator">
                   <strong>Elaborado por:</strong> <%= laudo.colaborador_nome || 'Sistema' %>
                 </p>
-                
+
                 <div class="laudo-content-preview">
                   <%= laudo.conteudo.substring(0, 300) %><% if (laudo.conteudo.length > 300) { %>...<% } %>
                 </div>
@@ -83,358 +328,46 @@
           <% }); %>
         </div>
       <% } %>
+    </main>
+  </div>
+
+  <div id="laudoModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-body">
+        <h2 id="modalTitle"></h2>
+        <div id="modalContent" class="modal-text"></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Modal para visualizar laudo completo -->
-<div id="laudoModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <div class="modal-body">
-      <h2 id="modalTitle"></h2>
-      <div id="modalContent" class="modal-text"></div>
-    </div>
-  </div>
-</div>
+  <script>
+    lucide.createIcons();
 
-<style>
-  .dashboard-wrapper {
-    display: flex;
-    min-height: calc(100vh - 200px);
-  }
+    document.querySelectorAll('.btn-view').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = this.closest('.laudo-card');
+        const titulo = card.querySelector('.laudo-card-header h3').textContent;
+        const conteudo = card.querySelector('.laudo-content-preview').textContent;
 
-  .sidebar {
-    width: 250px;
-    background: #2c3e50;
-    color: white;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
+        document.getElementById('modalTitle').textContent = titulo;
+        document.getElementById('modalContent').textContent = '(Conteudo do laudo completo)' + conteudo;
 
-  .sidebar-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .sidebar-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #ecf0f1;
-  }
-
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    color: #bdc3c7;
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-  }
-
-  .nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-  }
-
-  .nav-link.active {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
-    border-left-color: #3498db;
-  }
-
-  .nav-link .icon {
-    margin-right: 12px;
-    font-size: 18px;
-  }
-
-  .nav-link.logout {
-    margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e74c3c;
-  }
-
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-bar {
-    background: white;
-    padding: 20px 30px;
-    border-bottom: 1px solid #ecf0f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .header-bar h1 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 24px;
-  }
-
-  .content-area {
-    padding: 30px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #95a5a6;
-  }
-
-  .laudos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-
-  .laudo-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .laudo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .laudo-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-  }
-
-  .laudo-card-header h3 {
-    margin: 0;
-    font-size: 16px;
-    flex: 1;
-  }
-
-  .status-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-    margin-left: 10px;
-  }
-
-  .laudo-rascunho {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
-  }
-
-  .laudo-enviado {
-    background: rgba(66, 184, 221, 0.8);
-    color: white;
-  }
-
-  .laudo-assinado {
-    background: rgba(46, 204, 113, 0.8);
-    color: white;
-  }
-
-  .laudo-card-body {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .laudo-service {
-    margin: 0 0 10px 0;
-    color: #555;
-    font-size: 13px;
-  }
-
-  .laudo-creator {
-    margin: 0 0 15px 0;
-    color: #666;
-    font-size: 13px;
-  }
-
-  .laudo-service strong,
-  .laudo-creator strong {
-    color: #2c3e50;
-  }
-
-  .laudo-content-preview {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 4px;
-    font-size: 13px;
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    flex: 1;
-    max-height: 100px;
-    overflow-y: auto;
-  }
-
-  .laudo-dates {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ecf0f1;
-  }
-
-  .date-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-  }
-
-  .date-info .label {
-    color: #95a5a6;
-    font-weight: 600;
-  }
-
-  .date-info .value {
-    color: #2c3e50;
-  }
-
-  .btn-view {
-    margin-top: auto;
-    padding: 10px;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.3s;
-  }
-
-  .btn-view:hover {
-    background: #5568d3;
-  }
-
-  /* Modal Styles */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-
-  .modal.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-content {
-    background-color: white;
-    padding: 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 700px;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  .modal-close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #95a5a6;
-    z-index: 10;
-  }
-
-  .modal-close:hover {
-    color: #2c3e50;
-  }
-
-  .modal-body {
-    padding: 40px;
-    overflow-y: auto;
-  }
-
-  .modal-body h2 {
-    margin-top: 0;
-    color: #2c3e50;
-  }
-
-  .modal-text {
-    color: #555;
-    line-height: 1.8;
-    font-size: 14px;
-    white-space: pre-wrap;
-  }
-
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-
-    .laudos-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .modal-content {
-      width: 95%;
-    }
-  }
-</style>
-
-<script>
-  document.querySelectorAll('.btn-view').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const laudoId = this.dataset.laudoId;
-      const card = this.closest('.laudo-card');
-      const titulo = card.querySelector('.laudo-card-header h3').textContent;
-      const conteudo = card.querySelector('.laudo-content-preview').textContent;
-
-      document.getElementById('modalTitle').textContent = titulo;
-      document.getElementById('modalContent').textContent = '(Conteúdo do laudo completo)' + conteudo;
-      
-      const modal = document.getElementById('laudoModal');
-      modal.classList.add('show');
+        const modal = document.getElementById('laudoModal');
+        modal.classList.add('show');
+      });
     });
-  });
 
-  document.querySelector('.modal-close').addEventListener('click', function() {
-    document.getElementById('laudoModal').classList.remove('show');
-  });
+    document.querySelector('.modal-close').addEventListener('click', function() {
+      document.getElementById('laudoModal').classList.remove('show');
+    });
 
-  document.getElementById('laudoModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.classList.remove('show');
-    }
-  });
-</script>
+    document.getElementById('laudoModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+      }
+    });
+  </script>
+</body>
 
-<%- include('../partials/footer') %>
+</html>

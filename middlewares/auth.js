@@ -34,10 +34,25 @@ const verificarColaborador = (req, res, next) => {
 // Middleware para verificar se não está logado
 const verificarNaoAutenticado = (req, res, next) => {
   if (req.session && req.session.userId) {
-    res.redirect(req.session.tipo === 'cliente' ? '/cliente/dashboard' : '/colaborador/dashboard');
-  } else {
-    next();
+    if (req.session.tipo === 'cliente') {
+      return res.redirect('/cliente/dashboard');
+    }
+
+    if (req.session.tipo === 'colaborador') {
+      return res.redirect('/colaborador/dashboard');
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Erro ao limpar sessão inválida:', err);
+        return res.redirect('/login');
+      }
+      next();
+    });
+    return;
   }
+
+  next();
 };
 
 module.exports = {
