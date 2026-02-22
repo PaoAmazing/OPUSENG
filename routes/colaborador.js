@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/connect');
-const { verificarColaborador } = require('../middlewares/auth');
+const { verificarColaborador, verificarAdmin } = require('../middlewares/auth');
 
 // GET - Dashboard do colaborador
 router.get('/dashboard', verificarColaborador, (req, res) => {
@@ -32,7 +32,8 @@ router.get('/dashboard', verificarColaborador, (req, res) => {
         title: 'Painel do Colaborador',
         usuario: {
           nome: req.session.nome,
-          email: req.session.email
+          email: req.session.email,
+          tipo: req.session.tipo
         },
         servicos,
         contadores
@@ -86,7 +87,8 @@ router.get('/servico/:id', verificarColaborador, (req, res) => {
                 usuario: {
                   nome: req.session.nome,
                   email: req.session.email,
-                  id: req.session.userId
+                  id: req.session.userId,
+                  tipo: req.session.tipo
                 },
                 servico,
                 laudos,
@@ -172,7 +174,8 @@ router.get('/laudo/novo/:servico_id', verificarColaborador, (req, res) => {
         usuario: {
           nome: req.session.nome,
           email: req.session.email,
-          id: req.session.userId
+          id: req.session.userId,
+          tipo: req.session.tipo
         },
         servico,
         laudo: null
@@ -257,10 +260,50 @@ router.get('/clientes', verificarColaborador, (req, res) => {
         title: 'Gerenciar Clientes',
         usuario: {
           nome: req.session.nome,
-          email: req.session.email
+          email: req.session.email,
+          tipo: req.session.tipo
         },
         clientes
       });
+    }
+  );
+});
+
+// GET - Serviços do cliente
+router.get('/clientes/:id/servicos', verificarColaborador, (req, res) => {
+  const { id } = req.params;
+
+  db.get(
+    `SELECT id, nome, email, telefone, empresa FROM usuarios WHERE id = ? AND tipo = 'cliente' AND ativo = 1`,
+    [id],
+    (err, cliente) => {
+      if (err || !cliente) {
+        return res.status(404).render('404', {
+          title: 'Cliente não encontrado'
+        });
+      }
+
+      db.all(
+        `SELECT s.* FROM servicos s WHERE s.usuario_id = ? ORDER BY s.data_criacao DESC`,
+        [id],
+        (err, servicos) => {
+          if (err) {
+            console.error('Erro ao buscar serviços do cliente:', err);
+            servicos = [];
+          }
+
+          res.render('colaborador/cliente-servicos', {
+            title: 'Serviços do Cliente',
+            usuario: {
+              nome: req.session.nome,
+              email: req.session.email,
+              tipo: req.session.tipo
+            },
+            cliente,
+            servicos
+          });
+        }
+      );
     }
   );
 });
@@ -297,25 +340,73 @@ router.get('/admin', verificarColaborador, (req, res) => {
                 (err, colaboradorData) => {
                   const totalColaboradores = colaboradorData && colaboradorData[0] ? colaboradorData[0].total : 0;
 
-                  res.render('colaborador/admin', {
-                    title: 'Administração',
-                    usuario: {
-                      nome: req.session.nome,
-                      email: req.session.email
-                    },
-                    estatisticas: {
-                      totalServicos,
-                      totalClientes,
-                      totalColaboradores,
-                      servicosPorStatus: statusMap
+                  const isAdmin = req.session.tipo === 'admin';
+
+                  const renderAdmin = (usuarios = []) => {
+                    res.render('colaborador/admin', {
+                      title: 'Administração',
+                      usuario: {
+                        nome: req.session.nome,
+                        email: req.session.email,
+                        tipo: req.session.tipo
+                      },
+                      estatisticas: {
+                        totalServicos,
+                        totalClientes,
+                        totalColaboradores,
+                        servicosPorStatus: statusMap
+                      },
+                      isAdmin,
+                      usuarios
+                    });
+                  };
+
+                  if (!isAdmin) {
+                    return renderAdmin();
+                  }
+
+                  db.all(
+                    `SELECT id, nome, email, tipo, ativo, data_criacao FROM usuarios ORDER BY data_criacao DESC`,
+                    [],
+                    (err, usuarios) => {
+                      if (err) {
+                        console.error('Erro ao buscar usuários:', err);
+                        usuarios = [];
+                      }
+
+                      renderAdmin(usuarios);
                     }
-                  });
+                  );
                 }
               );
             }
           );
         }
       );
+    }
+  );
+});
+
+// POST - Atualizar tipo de usuário (admin)
+router.post('/admin/usuarios/:id/tipo', verificarAdmin, (req, res) => {
+  const { id } = req.params;
+  const { tipo } = req.body;
+
+  const tiposValidos = ['cliente', 'colaborador', 'admin'];
+  if (!tiposValidos.includes(tipo)) {
+    return res.redirect('/colaborador/admin?erro=Tipo de usuário inválido');
+  }
+
+  db.run(
+    `UPDATE usuarios SET tipo = ? WHERE id = ?`,
+    [tipo, id],
+    function(err) {
+      if (err) {
+        console.error('Erro ao atualizar tipo de usuário:', err);
+        return res.redirect('/colaborador/admin?erro=Erro ao atualizar usuário');
+      }
+
+      res.redirect('/colaborador/admin');
     }
   );
 });

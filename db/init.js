@@ -20,7 +20,7 @@ db.serialize(() => {
       nome TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       senha TEXT NOT NULL,
-      tipo TEXT NOT NULL CHECK(tipo IN ('cliente', 'colaborador')),
+      tipo TEXT NOT NULL CHECK(tipo IN ('cliente', 'colaborador', 'admin')),
       telefone TEXT,
       empresa TEXT,
       data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,

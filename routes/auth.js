@@ -14,15 +14,27 @@ router.get('/login', verificarNaoAutenticado, (req, res) => {
 
 // POST - Fazer login
 router.post('/login', verificarNaoAutenticado, (req, res) => {
-  const { email, senha, tipo } = req.body;
+  const { email, senha } = req.body;
 
-  if (!email || !senha || !tipo) {
+  if (!email || !senha) {
     return res.redirect('/login?erro=Preencha todos os campos');
   }
 
+  const adminUser = process.env.ADMIN_USER;
+  const adminPass = process.env.ADMIN_PASS;
+
+  if (adminUser && adminPass && email === adminUser && senha === adminPass) {
+    req.session.userId = 'admin-env';
+    req.session.nome = 'Administrador';
+    req.session.email = adminUser;
+    req.session.tipo = 'admin';
+
+    return res.redirect('/colaborador/admin');
+  }
+
   db.get(
-    'SELECT * FROM usuarios WHERE email = ? AND tipo = ? AND ativo = 1',
-    [email, tipo],
+    'SELECT * FROM usuarios WHERE email = ? AND ativo = 1',
+    [email],
     (err, usuario) => {
       if (err) {
         console.error('Erro ao buscar usuário:', err);
@@ -30,7 +42,7 @@ router.post('/login', verificarNaoAutenticado, (req, res) => {
       }
 
       if (!usuario) {
-        return res.redirect('/login?erro=Email ou tipo de usuário incorreto');
+        return res.redirect('/login?erro=Email ou senha incorretos');
       }
 
       // Verificar senha
@@ -41,7 +53,7 @@ router.post('/login', verificarNaoAutenticado, (req, res) => {
         }
 
         if (!senhaValida) {
-          return res.redirect('/login?erro=Senha incorreta');
+          return res.redirect('/login?erro=Email ou senha incorretos');
         }
 
         // Criar sessão
@@ -52,10 +64,14 @@ router.post('/login', verificarNaoAutenticado, (req, res) => {
 
         // Redirecionar para dashboard apropriado
         if (usuario.tipo === 'cliente') {
-          res.redirect('/cliente/dashboard');
-        } else {
-          res.redirect('/colaborador/dashboard');
+          return res.redirect('/cliente/dashboard');
         }
+
+        if (usuario.tipo === 'admin') {
+          return res.redirect('/colaborador/admin');
+        }
+
+        return res.redirect('/colaborador/dashboard');
       });
     }
   );

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicos do Cliente | OPUS Engenharia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/painel.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a href="/" class="sidebar-brand">
+      <img src="/img/logo.png" alt="Logo OPUS" />
+      <span class="sidebar-brand-text">OPUS <em>Engenharia</em></span>
+    </a>
+
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">Menu</p>
+      <a href="/colaborador/dashboard" class="nav-link">
+        <i data-lucide="layout-dashboard"></i> Dashboard
+      </a>
+      <a href="/colaborador/clientes" class="nav-link active">
+        <i data-lucide="users"></i> Clientes
+      </a>
+      <a href="/colaborador/admin" class="nav-link">
+        <i data-lucide="settings-2"></i> Administracao
+      </a>
+      <a href="/colaborador/perfil" class="nav-link">
+        <i data-lucide="user"></i> Meu Perfil
+      </a>
+    </div>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-footer">
+      <a href="/logout" class="nav-link logout">
+        <i data-lucide="log-out"></i> Sair
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Servicos do Cliente</span>
+      <div class="topbar-user">
+        <div class="user-avatar">
+          <%= usuario.nome.charAt(0).toUpperCase() %>
+        </div>
+        <div class="user-details">
+          <span class="user-name"><%= usuario.nome %></span>
+          <span class="user-role"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador' %></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+          <div>
+            <h2 class="card-title"><%= cliente.nome %></h2>
+            <p style="margin-top:0.25rem;color:var(--gray-500);font-size:0.875rem;">
+              <%= cliente.email %>
+              <% if (cliente.empresa) { %>
+                - <%= cliente.empresa %>
+              <% } %>
+            </p>
+          </div>
+          <a href="/colaborador/clientes" class="btn btn-outline btn-sm">
+            <i data-lucide="arrow-left"></i> Voltar
+          </a>
+        </div>
+
+        <% if (servicos.length === 0) { %>
+          <div class="empty-state">
+            <i data-lucide="inbox"></i>
+            <p>Este cliente ainda nao possui servicos.</p>
+          </div>
+        <% } else { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Servico</th>
+                  <th>Status</th>
+                  <th>Prioridade</th>
+                  <th>Data</th>
+                  <th>Acao</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% servicos.forEach(servico => { %>
+                  <tr>
+                    <td style="font-weight:600;color:var(--gray-900)"><%= servico.titulo %></td>
+                    <td>
+                      <span class="badge badge-<%= servico.status %>">
+                        <%= servico.status.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) %>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge badge-prioridade-<%= servico.prioridade %>">
+                        <%= servico.prioridade.toUpperCase() %>
+                      </span>
+                    </td>
+                    <td style="color:var(--gray-400);font-size:0.8125rem">
+                      <%= new Date(servico.data_criacao).toLocaleDateString('pt-BR') %>
+                    </td>
+                    <td>
+                      <a href="/colaborador/servico/<%= servico.id %>" class="btn btn-primary btn-sm">
+                        <i data-lucide="pencil"></i> Gerenciar
+                      </a>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

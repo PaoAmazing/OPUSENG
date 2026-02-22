@@ -58,7 +58,7 @@
           <span class="user-name">
             <%= usuario.nome %>
           </span>
-          <span class="user-role">Colaborador</span>
+          <span class="user-role"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador' %></span>
         </div>
       </div>
     </header>

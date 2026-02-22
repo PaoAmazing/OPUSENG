@@ -21,12 +21,28 @@ const verificarCliente = (req, res, next) => {
 
 // Middleware para verificar se é colaborador
 const verificarColaborador = (req, res, next) => {
-  if (req.session && req.session.userId && req.session.tipo === 'colaborador') {
+  if (
+    req.session &&
+    req.session.userId &&
+    (req.session.tipo === 'colaborador' || req.session.tipo === 'admin')
+  ) {
     next();
   } else {
-    res.status(403).render('404', { 
+    res.status(403).render('404', {
       title: 'Acesso Negado',
-      message: 'Você não tem permissão para acessar esta página' 
+      message: 'Você não tem permissão para acessar esta página'
+    });
+  }
+};
+
+// Middleware para verificar se é admin
+const verificarAdmin = (req, res, next) => {
+  if (req.session && req.session.userId && req.session.tipo === 'admin') {
+    next();
+  } else {
+    res.status(403).render('404', {
+      title: 'Acesso Negado',
+      message: 'Você não tem permissão para acessar esta página'
     });
   }
 };
@@ -40,6 +56,10 @@ const verificarNaoAutenticado = (req, res, next) => {
 
     if (req.session.tipo === 'colaborador') {
       return res.redirect('/colaborador/dashboard');
+    }
+
+    if (req.session.tipo === 'admin') {
+      return res.redirect('/colaborador/admin');
     }
 
     req.session.destroy((err) => {
@@ -59,5 +79,6 @@ module.exports = {
   verificarAutenticacao,
   verificarCliente,
   verificarColaborador,
+  verificarAdmin,
   verificarNaoAutenticado
 };

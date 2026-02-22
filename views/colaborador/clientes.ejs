@@ -195,7 +195,7 @@
         </div>
         <div class="user-details">
           <span class="user-name"><%= usuario.nome %></span>
-          <span class="user-role">Colaborador</span>
+          <span class="user-role"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador' %></span>
         </div>
       </div>
     </header>
@@ -237,9 +237,9 @@
               </div>
 
               <div class="cliente-footer">
-                <button class="btn btn-primary btn-small btn-view-servicos" data-cliente-id="<%= cliente.id %>">
+                <a class="btn btn-primary btn-small" href="/colaborador/clientes/<%= cliente.id %>/servicos">
                   Ver Servicos
-                </button>
+                </a>
               </div>
             </div>
           <% }); %>
@@ -250,17 +250,6 @@
 
   <script>
     lucide.createIcons();
-
-    function verServicos(clienteId) {
-      alert('Funcionalidade de filtro por cliente sera implementada');
-    }
-
-    document.querySelectorAll('.btn-view-servicos').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const clienteId = btn.dataset.clienteId;
-        verServicos(clienteId);
-      });
-    });
   </script>
 </body>
 

@@ -260,7 +260,7 @@
         </div>
         <div class="user-details">
           <span class="user-name"><%= usuario.nome %></span>
-          <span class="user-role">Colaborador</span>
+          <span class="user-role"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador' %></span>
         </div>
       </div>
     </header>
@@ -289,6 +289,66 @@
           </div>
         </div>
       </div>
+
+      <% if (isAdmin) { %>
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Gerenciar Usuarios</h2>
+          </div>
+          <div class="section-body">
+            <% if (usuarios.length === 0) { %>
+              <div class="empty-state">
+                <p>Nenhum usuario encontrado.</p>
+              </div>
+            <% } else { %>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th>Perfil</th>
+                      <th>Status</th>
+                      <th>Criado em</th>
+                      <th>Acao</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% usuarios.forEach(user => { %>
+                      <tr>
+                        <td style="font-weight:600;color:var(--gray-900)"><%= user.nome %></td>
+                        <td><%= user.email %></td>
+                        <td>
+                          <select name="tipo" class="filter-select" style="min-width:160px;" form="user-form-<%= user.id %>">
+                            <option value="cliente" <%= user.tipo === 'cliente' ? 'selected' : '' %>>Cliente</option>
+                            <option value="colaborador" <%= user.tipo === 'colaborador' ? 'selected' : '' %>>Colaborador</option>
+                            <option value="admin" <%= user.tipo === 'admin' ? 'selected' : '' %>>Administrador</option>
+                          </select>
+                        </td>
+                        <td>
+                          <span class="badge <%= user.ativo ? 'badge-concluido' : 'badge-cancelado' %>">
+                            <%= user.ativo ? 'Ativo' : 'Inativo' %>
+                          </span>
+                        </td>
+                        <td style="color:var(--gray-400);font-size:0.8125rem">
+                          <%= new Date(user.data_criacao).toLocaleDateString('pt-BR') %>
+                        </td>
+                        <td>
+                          <form id="user-form-<%= user.id %>" action="/colaborador/admin/usuarios/<%= user.id %>/tipo" method="POST">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                              <i data-lucide="save"></i> Salvar
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
 
       <div class="section-card">
         <div class="section-header">
