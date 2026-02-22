@@ -287,6 +287,14 @@
       font-weight: 700;
     }
 
+    .alert.warning {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
     @media (max-width: 768px) {
       .sidebar {
         display: none;
@@ -369,9 +377,15 @@
         </div>
         <div class="perfil-content">
           <h2><%= usuario.nome %></h2>
-          <p class="perfil-type">Colaborador/Prestador</p>
+          <p class="perfil-type"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador/Prestador' %></p>
 
-          <form id="perfilForm" class="perfil-form">
+          <% if (isAdminEnv) { %>
+            <div class="alert warning" style="margin-bottom: 16px;">
+              Perfil admin de backup. Alteracoes nao sao permitidas aqui.
+            </div>
+          <% } %>
+
+          <form id="perfilForm" class="perfil-form" data-readonly="<%= isAdminEnv ? '1' : '0' %>">
             <div class="form-group">
               <label for="nome">Nome Completo:</label>
               <input
@@ -381,6 +395,7 @@
                 value="<%= usuario.nome %>"
                 class="form-control"
                 required
+                <%= isAdminEnv ? 'disabled' : '' %>
               >
             </div>
 
@@ -405,6 +420,7 @@
                 value="<%= usuario.telefone || '' %>"
                 class="form-control"
                 placeholder="(11) 9999-9999"
+                <%= isAdminEnv ? 'disabled' : '' %>
               >
             </div>
 
@@ -421,10 +437,12 @@
               </p>
             </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Salvar Alteracoes</button>
-              <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancelar</button>
-            </div>
+            <% if (!isAdminEnv) { %>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Salvar Alteracoes</button>
+                <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancelar</button>
+              </div>
+            <% } %>
 
             <div id="messageContainer" style="display:none; margin-top: 20px;">
               <div id="message" class="alert"></div>
@@ -442,7 +460,7 @@
           </div>
           <div class="info-item">
             <span class="info-label">Tipo de Usuario:</span>
-            <span class="info-value">Colaborador</span>
+            <span class="info-value"><%= usuario.tipo === 'admin' ? 'Administrador' : 'Colaborador' %></span>
           </div>
           <div class="info-item">
             <span class="info-label">Data de Criacao:</span>
@@ -493,7 +511,12 @@
   <script>
     lucide.createIcons();
 
-    document.getElementById('perfilForm').addEventListener('submit', function(e) {
+    const perfilForm = document.getElementById('perfilForm');
+    if (perfilForm.dataset.readonly === '1') {
+      return;
+    }
+
+    perfilForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const formData = new FormData(this);

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/connect');
+const bcrypt = require('bcryptjs');
 const { verificarColaborador, verificarAdmin } = require('../middlewares/auth');
 
 // GET - Dashboard do colaborador
@@ -310,6 +311,9 @@ router.get('/clientes/:id/servicos', verificarColaborador, (req, res) => {
 
 // GET - Página de administração
 router.get('/admin', verificarColaborador, (req, res) => {
+  const sucesso = req.query.sucesso ? decodeURIComponent(req.query.sucesso) : null;
+  const erro = req.query.erro ? decodeURIComponent(req.query.erro) : null;
+
   // Buscar estatísticas
   db.all(
     `SELECT COUNT(*) as total FROM servicos`,
@@ -357,7 +361,9 @@ router.get('/admin', verificarColaborador, (req, res) => {
                         servicosPorStatus: statusMap
                       },
                       isAdmin,
-                      usuarios
+                      usuarios,
+                      sucesso,
+                      erro
                     });
                   };
 
@@ -411,9 +417,67 @@ router.post('/admin/usuarios/:id/tipo', verificarAdmin, (req, res) => {
   );
 });
 
+// POST - Criar usuário (admin)
+router.post('/admin/usuarios', verificarAdmin, (req, res) => {
+  const { nome, email, senha, tipo, telefone, empresa } = req.body;
+
+  if (!nome || !email || !senha || !tipo) {
+    return res.redirect('/colaborador/admin?erro=Preencha os campos obrigatórios');
+  }
+
+  const tiposValidos = ['cliente', 'colaborador', 'admin'];
+  if (!tiposValidos.includes(tipo)) {
+    return res.redirect('/colaborador/admin?erro=Tipo de usuário inválido');
+  }
+
+  if (senha.length < 6) {
+    return res.redirect('/colaborador/admin?erro=A senha deve ter no mínimo 6 caracteres');
+  }
+
+  bcrypt.hash(senha, 10, (err, senhaHash) => {
+    if (err) {
+      console.error('Erro ao criptografar senha:', err);
+      return res.redirect('/colaborador/admin?erro=Erro ao criar usuário');
+    }
+
+    db.run(
+      `INSERT INTO usuarios (nome, email, senha, tipo, telefone, empresa)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [nome, email, senhaHash, tipo, telefone || null, empresa || null],
+      function(insertErr) {
+        if (insertErr) {
+          console.error('Erro ao criar usuário:', insertErr);
+          if (insertErr.message.includes('UNIQUE constraint failed')) {
+            return res.redirect('/colaborador/admin?erro=Este email já está registrado');
+          }
+          return res.redirect('/colaborador/admin?erro=Erro ao criar usuário');
+        }
+
+        res.redirect('/colaborador/admin?sucesso=Usuário criado com sucesso');
+      }
+    );
+  });
+});
+
 // GET - Página de perfil
 router.get('/perfil', verificarColaborador, (req, res) => {
   const userId = req.session.userId;
+
+  if (req.session.tipo === 'admin' && userId === 'admin-env') {
+    return res.render('colaborador/perfil', {
+      title: 'Meu Perfil',
+      usuario: {
+        id: 'admin-env',
+        nome: req.session.nome || 'Administrador',
+        email: req.session.email,
+        telefone: null,
+        data_criacao: new Date().toISOString(),
+        ativo: 1,
+        tipo: 'admin'
+      },
+      isAdminEnv: true
+    });
+  }
 
   db.get(
     'SELECT * FROM usuarios WHERE id = ?',
@@ -427,7 +491,8 @@ router.get('/perfil', verificarColaborador, (req, res) => {
 
       res.render('colaborador/perfil', {
         title: 'Meu Perfil',
-        usuario
+        usuario,
+        isAdminEnv: false
       });
     }
   );
@@ -437,6 +502,13 @@ router.get('/perfil', verificarColaborador, (req, res) => {
 router.post('/perfil/atualizar', verificarColaborador, (req, res) => {
   const { nome, telefone } = req.body;
   const userId = req.session.userId;
+
+  if (req.session.tipo === 'admin' && userId === 'admin-env') {
+    return res.json({
+      sucesso: false,
+      mensagem: 'Perfil admin de backup não pode ser alterado'
+    });
+  }
 
   db.run(
     `UPDATE usuarios SET nome = ?, telefone = ? WHERE id = ?`,
