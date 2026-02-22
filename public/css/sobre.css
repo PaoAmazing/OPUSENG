@@ -5,6 +5,7 @@ html {
 
 body {
   overflow-x: hidden;
+  padding-top: 4rem;
 }
 
 .hero-sobre {

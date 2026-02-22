@@ -38,66 +38,7 @@ body {
   padding: 0 1rem;
 }
 
-/* Header */
-header {
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.logo-img {
-  width: 40px; /* ou outro tamanho desejado */
-  height: auto;
-  object-fit: contain;
-  margin-right: 0.5rem; /* espaçamento do texto */
-}
-
-
-.logo span {
-  color: var(--secondary-color);
-}
-
-.logo i {
-  width: 32px;
-  height: 32px;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: var(--gray-600);
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-  color: var(--primary-color);
-}
+/* Header - estilos principais em header.css */
 
 /* Hero Section */
 .hero {

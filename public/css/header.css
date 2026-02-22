@@ -39,6 +39,12 @@ header {
     transform: translateY(-1px);
   }
   
+  .logo-img {
+    width: 40px;
+    height: auto;
+    object-fit: contain;
+  }
+  
   .logo i {
     width: 2.5rem;
     height: 2.5rem;

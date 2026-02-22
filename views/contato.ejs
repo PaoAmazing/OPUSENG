@@ -23,10 +23,16 @@
     gtag('config', 'AW-17012385238');
   </script>
 
-  <link rel="stylesheet" href="/css/contato.css" />
+  <meta property="og:title" content="Contato - OPUS Engenharia">
+  <meta property="og:description" content="Engenharia com excelência: projetos, laudos, NR12 e mais.">
+  <meta property="og:image" content="https://opusmec.com.br/img/logo.png">
+  <meta property="og:url" content="https://opusmec.com.br/contato">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/header.css" />
   <link rel="stylesheet" href="/css/footer.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/contato.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -81,35 +87,66 @@
                   <% } %>
 
                     <form action="/contato" method="POST">
-                      <div class="form-group">
-                        <label for="nome">Nome Completo</label>
-                        <input type="text" id="nome" name="nome" required />
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="nome">
+                            <i data-lucide="user"></i>
+                            Nome Completo
+                          </label>
+                          <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required />
+
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="email">
+                            <i data-lucide="mail"></i>
+                            Email
+                          </label>
+                          <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+                        </div>
+                        <div class="form-group">
+                          <label for="telefone">
+                            <i data-lucide="phone"></i>
+                            Telefone
+                          </label>
+                          <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15" />
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input type="tel" id="telefone" name="telefone" />
+
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="servico">
+                            <i data-lucide="briefcase"></i>
+                            Serviço de Interesse
+                          </label>
+                          <select id="servico" name="servico">
+                            <option value="">Selecione um serviço...</option>
+                            <option value="PMOC - Ar Condicionado">PMOC - Ar Condicionado</option>
+                            <option value="Laudo Técnico">Laudo Técnico</option>
+                            <option value="Projeto Mecânico">Projeto Mecânico</option>
+                            <option value="NR12 com ART">NR12 com ART</option>
+                            <option value="Consultoria">Consultoria</option>
+                            <option value="Reclassificação de Monta">Reclassificação de Monta</option>
+                            <option value="Outro">Outro</option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="servico">Serviço de Interesse</label>
-                        <select id="servico" name="servico">
-                          <option value="PMOC - Ar Condicionado">PMOC - Ar Condicionado</option>
-                          <option value="Laudo Técnico">Laudo Técnico</option>
-                          <option value="Projeto Mecânico">Projeto Mecânico</option>
-                          <option value="NR12 com ART">NR12 com ART</option>
-                          <option value="Consultoria">Consultoria</option>
-                          <option value="Reclassificação de Monta">Reclassificação de Monta</option>
-                          <option value="Outro">Outro</option>
-                        </select>
+
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="mensagem">
+                            <i data-lucide="message-square"></i>
+                            Mensagem
+                          </label>
+                          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Descreva como podemos ajudar você..." required></textarea>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="mensagem">Mensagem</label>
-                        <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
-                      </div>
-                      <button type="submit" class="btn" id="sendBtn">Enviar Mensagem</button>
+
+                      <button type="submit" class="btn btn-primary" id="sendBtn">
+                        <i data-lucide="send"></i>
+                        Enviar Mensagem
+                      </button>
                     </form>
           </div>
 
@@ -218,11 +255,33 @@
     });
   </script>
   <script>
+    // Formatação de telefone
+    const telefoneInput = document.getElementById('telefone');
+    
+    telefoneInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      
+      if (value.length <= 11) {
+        if (value.length <= 10) {
+          // Formato: (00) 0000-0000
+          value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+        } else {
+          // Formato: (00) 00000-0000
+          value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+        }
+      }
+      
+      e.target.value = value;
+    });
+
+    // Formulário de envio
     const form = document.querySelector('form');
     const sendBtn = document.getElementById('sendBtn');
+    
     form.addEventListener('submit', () => {
-      sendBtn.textContent = 'Enviando...';
+      sendBtn.innerHTML = '<i data-lucide="loader"></i> Enviando...';
       sendBtn.disabled = true;
+      lucide.createIcons();
     });
   </script>
 
