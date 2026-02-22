@@ -325,6 +325,8 @@
 </head>
 
 <body>
+
+  <!-- ── Sidebar ── -->
   <aside class="sidebar">
     <a href="/" class="sidebar-brand">
       <img src="/img/logo.png" alt="Logo OPUS" />
@@ -340,7 +342,7 @@
         <i data-lucide="users"></i> Clientes
       </a>
       <a href="/colaborador/admin" class="nav-link">
-        <i data-lucide="settings-2"></i> Administracao
+        <i data-lucide="settings-2"></i> Administração
       </a>
       <a href="/colaborador/perfil" class="nav-link active">
         <i data-lucide="user"></i> Meu Perfil
@@ -355,6 +357,8 @@
       </a>
     </div>
   </aside>
+
+  <!-- ──Main ── -->
 
   <div class="main-content">
     <header class="topbar">
@@ -509,49 +513,53 @@
   </div>
 
   <script>
-    lucide.createIcons();
+    // Inicializa os ícones Lucide
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
 
     const perfilForm = document.getElementById('perfilForm');
     if (perfilForm.dataset.readonly === '1') {
-      return;
-    }
+      // Formulário read-only para admin-env, não adicionar event listener
+    } else {
+      // Adiciona listener para envio do formulário
+      perfilForm.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    perfilForm.addEventListener('submit', function(e) {
-      e.preventDefault();
+        const formData = new FormData(this);
+        const dados = {
+          nome: formData.get('nome'),
+          telefone: formData.get('telefone')
+        };
 
-      const formData = new FormData(this);
-      const dados = {
-        nome: formData.get('nome'),
-        telefone: formData.get('telefone')
-      };
+        fetch('/colaborador/perfil/atualizar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        })
+        .then(res => res.json())
+        .then(data => {
+          const messageContainer = document.getElementById('messageContainer');
+          const message = document.getElementById('message');
 
-      fetch('/colaborador/perfil/atualizar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-      })
-      .then(res => res.json())
-      .then(data => {
-        const messageContainer = document.getElementById('messageContainer');
-        const message = document.getElementById('message');
+          messageContainer.style.display = 'block';
+          message.textContent = data.mensagem;
+          message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
 
-        messageContainer.style.display = 'block';
-        message.textContent = data.mensagem;
-        message.className = 'alert ' + (data.sucesso ? 'success' : 'danger');
-
-        if (data.sucesso) {
-          setTimeout(() => {
-            location.reload();
-          }, 2000);
-        }
-      })
-      .catch(err => {
-        console.error('Erro:', err);
-        alert('Erro ao atualizar perfil');
+          if (data.sucesso) {
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
+          }
+        })
+        .catch(err => {
+          console.error('Erro:', err);
+          alert('Erro ao atualizar perfil');
+        });
       });
-    });
+    }
   </script>
 </body>
 
